@@ -2,7 +2,7 @@
   "name": "fratit",
   "version": "20220807",
   "description": "Framlin Postit",
-  "main": "main.js",
+  "main": "ui/electron/main.js",
   "scripts": {
     "start": "electron-forge start",
     "test": "jest --watchAll",
