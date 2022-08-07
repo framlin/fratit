@@ -1,0 +1,28 @@
+{
+  "name": "fratit",
+  "version": "1.0.0",
+  "description": "Framlin Postit",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/framlin/fratit.git"
+  },
+  "keywords": [
+    "note",
+    "taker",
+    "postit"
+  ],
+  "author": "Wolfgang Egger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/framlin/fratit/issues"
+  },
+  "homepage": "https://github.com/framlin/fratit#readme",
+  "devDependencies": {
+    "electron": "^20.0.1",
+    "jest": "^28.1.3"
+  }
+}
