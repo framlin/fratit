@@ -2,12 +2,14 @@ const {ipcRenderer} = require("electron");
 
 window.addEventListener('DOMContentLoaded', (event) => {
 
-    ipcRenderer.on('postit:fetch', (e, text) => {
-        let postit = document.querySelector("#content");
-        postit.innerHTML=`<h1>${text}</h1>`;
+    ipcRenderer.on('postit:fetch', (e, postit_data) => {
+        let postit_text = document.querySelector("#postit-text");
+        let postit_expiration = document.querySelector("#postit-expiration");
+        postit_text.innerHTML = postit_data.text;
+        postit_expiration.innerHTML = postit_data.expiration.toLocaleString('de-DE').split(',')[0]
     });
 
-    let body = document.querySelector('body');
+    let body = document.querySelector('html');
     body.addEventListener('click', () => {
         ipcRenderer.send('tray:close');
     });

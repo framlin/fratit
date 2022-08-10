@@ -39,7 +39,8 @@ class TrayWindow extends BrowserWindow {
         let pile = this.#POST_OFFICE.pile;
         let postit = pile ? pile.top : null;
         let text = postit ? postit.text : "empty pile";
-        this.webContents.send('postit:fetch', text);
+        let expiration = postit ? postit.expiration : "never";
+        this.webContents.send('postit:fetch', {text, expiration});
     }
 
 }
@@ -57,7 +58,7 @@ function create_tray_window (ControllerFactory, PostitInteractorFactory, POST_OF
         tray.setContextMenu(tray_menu);
 
         // Open the DevTools.
-        tray_window.webContents.openDevTools()
+        // tray_window.webContents.openDevTools()
 
     });
 }

@@ -8,12 +8,16 @@ class AddPostitInteractor {
     }
 
     //@RequestBoundary
-    execute(text) {
+    execute(postit_data) {
         let pile = this.#POST_OFFICE.pile;
         let postit = this.#POST_OFFICE.create_postit();
-        postit.text = text;
+        let date_parts = postit_data.expiration.split('.');
+
+        postit.text = postit_data.text;
+        postit.expiration = new Date(+date_parts[2], date_parts[1] - 1, +date_parts[0]);
         pile.push(postit);
-        this.#response_boundary.display(text);
+
+        this.#response_boundary.display(postit_data);
     }
 }
 

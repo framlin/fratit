@@ -19,7 +19,7 @@ class AddPostitWindow extends BrowserWindow {
         this.#request_boundary = create_request_boundary(this, post_office);
         this.#controller = create_controller(this.#request_boundary);
 
-        ipcMain.on('postit:submitted',(e, value)=>{
+        ipcMain.on('postit:submitted',(e, value) => {
             this.#controller.add_postit(value);
         })
 
@@ -38,7 +38,7 @@ function create_add_postit_window(create_controller, create_request_boundary, po
         add_postit_window = new AddPostitWindow(create_controller, create_request_boundary, post_office);
         add_postit_window.loadFile('ui/electron/add_postit/add_postit.html');
         // Open the DevTools.
-        add_postit_window.webContents.openDevTools();
+        // add_postit_window.webContents.openDevTools();
 }
 
 
