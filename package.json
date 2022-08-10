@@ -8,7 +8,7 @@
     "test": "jest --watchAll",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "watch": "nodemon --exec electron-forge start"
+    "watch": "nodemon --ignore 'data/pile.json' --exec electron-forge start"
   },
   "repository": {
     "type": "git",

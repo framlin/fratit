@@ -1,5 +1,6 @@
 const Pile = require("./Pile");
 const Postit = require("./Postit");
+const PileStorage = require("./PileStorage");
 
 class PostOffice {
     #pile;
@@ -29,6 +30,7 @@ class PostOffice {
 }
 
 const PILE = new Pile();
+const PILE_STORAGE = new PileStorage(PILE);
 const POST_OFFICE = new PostOffice(PILE);
 
 module.exports = POST_OFFICE;
