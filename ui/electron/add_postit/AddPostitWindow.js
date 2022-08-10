@@ -22,23 +22,23 @@ class AddPostitWindow extends BrowserWindow {
         ipcMain.on('postit:submitted',(e, value)=>{
             this.#controller.add_postit(value);
         })
+
+        this.on('closed', (e) => {
+            add_postit_window = null;
+        })
+
     }
 
     //@ResponseBoundary
     display() {
-        this.clear();
-    }
-
-    clear() {
-        this.webContents.send('postit:created');
     }
 }
 
 function create_add_postit_window(create_controller, create_request_boundary, post_office) {
-    add_postit_window = new AddPostitWindow(create_controller, create_request_boundary, post_office);
-    add_postit_window.loadFile('ui/electron/add_postit/add_postit.html');
-    // Open the DevTools.
-    add_postit_window.webContents.openDevTools();
+        add_postit_window = new AddPostitWindow(create_controller, create_request_boundary, post_office);
+        add_postit_window.loadFile('ui/electron/add_postit/add_postit.html');
+        // Open the DevTools.
+        add_postit_window.webContents.openDevTools();
 }
 
 

@@ -1,6 +1,7 @@
 class AddPostitInteractor {
     #response_boundary = null;
     #POST_OFFICE = null;
+
     constructor(response_boundary, POST_OFFICE) {
         this.#response_boundary = response_boundary;
         this.#POST_OFFICE = POST_OFFICE;

@@ -6,11 +6,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     submit_button.addEventListener('click', () => {
         let postit = document.querySelector("#postit");
         ipcRenderer.send('postit:submitted', postit.value);
-    });
-
-    ipcRenderer.on('postit:created', () => {
-        let postit = document.querySelector("#postit");
         postit.value = "";
+        window.close();
     });
 
 });
