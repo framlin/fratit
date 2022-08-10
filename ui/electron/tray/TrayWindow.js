@@ -27,7 +27,7 @@ class TrayWindow extends BrowserWindow {
 }
 
 
-function create_tray_window () {
+function create_tray_window (ControllerFactory, PostitInteractorFactory, POST_OFFICE) {
     tray_window = new TrayWindow();
 
     tray_window.loadFile('ui/electron/index.html').then(() => {
@@ -35,7 +35,7 @@ function create_tray_window () {
         trayBounds = tray.getBounds();
         app.dock.hide();
 
-        const tray_menu = create_tray_menu();
+        const tray_menu = create_tray_menu(ControllerFactory,PostitInteractorFactory, POST_OFFICE);
         tray.setToolTip('framlins postit')
         tray.setContextMenu(tray_menu);
 
@@ -46,16 +46,22 @@ function create_tray_window () {
 }
 
 
-function create_tray_menu() {
+function create_tray_menu(ControllerFactory, PostitInteractorFactory, POST_OFFICE) {
     return Menu.buildFromTemplate([
         {
             label: 'show postit', click: () => {
+                tray_window = new TrayWindow();
+                tray_window.loadFile('ui/electron/index.html');
                 tray_window.show();
             }
         },
         {
             label: 'add postit', click: () => {
-                create_add_postit_window();
+                create_add_postit_window(
+                    ControllerFactory.create_add_postit_controller,
+                    PostitInteractorFactory.create_add_postit_interactor,
+                    POST_OFFICE
+                );
             }
         },
     ]);

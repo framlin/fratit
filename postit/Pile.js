@@ -1,3 +1,5 @@
+const Postit = require("./Postit");
+
 class Pile {
     #items = [];
 
@@ -38,6 +40,26 @@ class Pile {
     clear() {
         this.#items = [];
     }
+
+    static from_JSON(json_string){
+        let obj = JSON.parse(json_string);
+        let items = JSON.parse(obj.items);
+        let postits = [];
+        for (let item of items) {
+            let json_item = JSON.stringify(item);
+            let postit = Postit.from_JSON(json_item);
+            postits.push(postit);
+        }
+        return new Pile(postits);
+    }
+
+    toJSON() {
+        return {
+            "items" : JSON.stringify(this.#items)
+        }
+
+    }
+
 }
 
 module.exports = Pile

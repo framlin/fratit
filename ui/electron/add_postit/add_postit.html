@@ -2,9 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <link rel="stylesheet" href="../css/framlin.css">
     <title>Add Postit</title>
 </head>
 <body>
-  <h1>Add Postit</h1>
+<h1>Add Postit</h1>
+<div class="vbox">
+    <textarea rows="3" id="postit"></textarea>
+    <div class="hbox flex-1 align-right"><button class="align-right" id="submit">submit</button></div>
+</div>
+
 </body>
 </html>

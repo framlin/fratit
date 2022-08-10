@@ -1,0 +1,25 @@
+html, body {
+    color: var(--color-darker-grey);
+    background-color: var(--color-background);
+    padding: 5px;
+}
+
+a{
+    color: var(--color-darkest-green);
+}
+
+iframe{
+    border: 0;
+}
+
+input:read-only{
+    background-color: var(--disabled-bg-color);
+}
+
+.form {
+    box-shadow: 0.2em 0.3em 0.5em #6e6e6e;
+}
+
+.entry_id {
+    
+}

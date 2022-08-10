@@ -1,0 +1,31 @@
+@import 'reset.css';
+@import 'layout.css';
+
+.hbox, .vbox, .groupbox, .window, .flex {
+    display: flex;
+}
+
+.hbox {
+    flex-direction: row;
+}
+
+.vbox,
+.window {
+    flex-direction: column;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-2 {
+    flex: 2;
+}
+
+.flex-3 {
+    flex: 3;
+}
+
+.flex-4 {
+    flex: 4;
+}

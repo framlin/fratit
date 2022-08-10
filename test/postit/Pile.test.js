@@ -1,4 +1,5 @@
 const Pile = require("../../postit/Pile");
+const Postit = require("../../postit/Postit");
 let pile;
 
 function push_two_items(pile) {
@@ -98,4 +99,23 @@ test('that one gets the item, it is taking', () => {
     expect(item).toBe(2);
 })
 
+test('that a de-serialized pile has type Pile', () => {
+    let json = JSON.stringify(pile);
+    let de_serialized = Pile.from_JSON(json);
+
+    expect(de_serialized).toBeInstanceOf(Pile);
+});
+
+
+test('that a de-serialized properties are correct', () => {
+    let postit = new Postit();
+    postit.text = "TEXT"
+    let items = [postit]
+    let pile = new Pile(items);
+    let json = JSON.stringify(pile);
+    let de_serialized = Pile.from_JSON(json);
+
+    expect(de_serialized).toStrictEqual(pile);
+    expect(de_serialized.all).toStrictEqual(pile.all);
+});
 

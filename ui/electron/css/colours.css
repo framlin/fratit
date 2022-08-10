@@ -1,0 +1,91 @@
+:root {
+    /* COLOUR DEFINITIONS */
+    --color-orange:   #ff5f00; /* rgba(255, 95, 0, 1)    -- hsla(22, 100%, 50%, 1) */
+    --color-light-orange:  #ee7f3d; /* rgba(238, 127, 61, 1)  -- hsla(22, 84%, 59%, 1) */
+    --color-primary-color: #ea752f;
+    --color-mustard:       #f3ca03;
+
+    --color-darker-blue:   #212d3a; /* rgba(33, 45, 58, 1)    -- hsla(211, 27%, 18%, 1) */
+    --color-dark-blue:     #2d3e50; /* rgba(45, 62, 80, 1)    -- hsla(211, 28%, 25%, 1) */
+    --color-third-blue:    #3c526a; /* rgba(60, 82, 106, 1)   -- hsla(211, 28%, 33%, 1) */
+    --color-light-blue:    #59839b; /* rgba(89, 131, 155, 1)  -- hsla(202, 27%, 48%, 1) */
+    --color-lighter-blue:  #7298ad; /* rgba(114, 152, 173, 1) -- hsla(201, 26%, 56%, 1) */
+    --color-lightest-blue: #daeffb; /* rgba(218, 239, 251, 1) -- hsla(201, 80%, 92%, 1) */
+
+    --color-dark-red:      #c23e3e; /* rgba(194, 62, 62, 1)   -- hsla(0, 52%, 50%, 1) */
+    --color-darker-red:    #742525; /* rgba(116, 37, 37, 1)   -- hsla(0, 52%, 30%, 1) */
+
+    --color-green:         #75b972; /* rgba(117, 185, 114, 1) -- hsla(117, 34%, 59%, 1) */
+    --color-light-green:   #79ff79; /* rgba(121, 255, 121, 1) -- hsla(120, 100%, 74%, 1) */
+    --color-dark-green:    #72ad72; /* rgba(114, 173, 114, 1) -- hsla(120, 26%, 56%, 1) */
+    --color-darker-green:  #458542; /* rgba(69, 133, 66, 1)   -- hsla(117, 34%, 39%, 1) */
+    --color-darkest-green: #032801; /* rgba(69, 133, 66, 1)   -- hsla(117, 34%, 39%, 1) */
+
+    --color-background:    #e0d7ca; /* rgba(228, 235, 239, 1) -- hsla(202, 26%, 92%, 1) */
+
+    /* grey colours collection */
+    --color-black:         #000000; /* rgba(0, 0, 0, 1)       -- hsla(0, 0%, 0%, 1) */
+
+    --color-font-grey:     #1d1d1d; /* rgba(29, 29, 29, 1)    -- hsla(0, 0%, 11%, 1) */
+    --color-darker-grey:   #333333; /* rgba(51, 51, 51, 1)    -- hsla(0, 0%, 20%, 1) */
+    --color-30-grey:       #4d4d4d; /* rgba(77, 77, 77, 1)    -- hsla(0, 0%, 30%, 1) */
+    --color-dark-grey:     #6e6e6e; /* rgba(110, 110, 110, 1) -- hsla(0, 0%, 43%, 1) */
+    --color-medium-grey:   #aeaeae; /* rgba(174, 174, 174, 1) -- hsla(0, 0%, 68%, 1) */
+    --color-80-grey:       #cdcdcd; /* rgba(205, 205, 205, 1) -- hsla(0, 0%, 80%, 1) */
+    --color-fields-grey:   #d3d8da; /* LACMAINT-25954 */ /* #d1d1d1 rgba(209, 209, 209, 1) -- hsla(0, 0%, 82%, 1) */
+    --color-light-grey:    #d0d0d0; /* LACMAINT-25954 */ /* #e9e9e9 rgba(233, 233, 233, 1) -- hsla(0, 0%, 91%, 1) */
+    --color-lighter-grey:  #eeeeee; /* rgba(238, 238, 238, 1) -- hsla(0, 0%, 93%, 1) */
+
+    --color-white:         #ffffff; /* rgba(255, 255, 255, 1) -- hsla(0, 100%, 100%, 1) */
+
+
+    /* CONTEXT COLORS */
+    --font-color:          var(--color-font-grey);
+    --label-font-color:    var(--color-darker-grey);
+    --caption-font-color:  var(--color-darker-grey);
+
+    --disabled-bg-color:   var(--color-fields-grey);
+    --disabled-font-color: var(--font-color);
+    --disabled-text-color: var(--font-color);
+
+    --box-first-color:     var(--color-fields-grey);
+    --box-second-color:    var(--color-white);
+    --box-bg-color:        var(--color-background);
+    --box-border-color:    var(--color-lighter-grey);
+    --box-shadow-color:    var(--color-medium-grey);
+
+    --hr-color:            var(--color-80-grey);
+
+    /* <input> radio & checkbox */
+    --input-bg-color:      var(--color-white);
+    --input-check-color:   var(--color-dark-green);
+    --input-radio-color:   var(--color-dark-green);
+    --input-disabled-radio-color: var(--color-darker-green);
+    --input-border-color:  var(--color-medium-grey);
+    --input-disabled-color: var(--color-medium-grey); /* disabled border color */
+
+    /* <select> */
+    --select-bg-color:      var(--color-white);
+    --select-border-color:  var(--color-medium-grey);
+    --select-disabled-color: var(--color-medium-grey); /* disabled border color */
+
+    --tree-bg-color:        var(--color-white);
+
+    /* menu #treerootbox */
+    --menu-bg-color:        var(--navigation-back-color);
+    --menu-hover-color:     var(--color-primary-color);
+    --menu-text-color:      var(--color-white);
+    --menu-line-color:      var(--color-darker-blue);
+
+    /* OTHER */
+    --general-font-size:   12px;
+    --label-font-size:     11px;
+    --caption-font-size:   10px;
+
+    --navigation-back-color: #4a4a4a;
+    --navigation-font-enabled: var(--color-white);
+    --navigation-font-disabled: var(--color-medium-grey);
+
+    --form-color: var(--color-mustard);
+
+}

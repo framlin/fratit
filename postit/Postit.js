@@ -25,6 +25,26 @@ class Postit {
         this.#expiration = null;
     }
 
+    static from_JSON(json_string) {
+        let obj = JSON.parse(json_string);
+        let result = new Postit();
+
+        result.#text = obj.text;
+        result.#creationDate = obj.creationDate;
+        result.#expiration = obj.expiration;
+        return result;
+    }
+
+
+    toJSON() {
+        return {
+            "text" : this.#text,
+            "expiration": this.#expiration,
+            "creationDate": this.#creationDate
+        }
+
+    }
+
 }
 
 module.exports = Postit
