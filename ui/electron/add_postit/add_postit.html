@@ -6,13 +6,16 @@
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
     <link rel="stylesheet" href="../css/framlin.css">
+    <link rel="stylesheet" href="add_postit.css">
     <title>Add Postit</title>
 </head>
 <body>
-<h1>Add Postit</h1>
-<div class="vbox">
-    <textarea rows="3" id="postit-text"></textarea>
-    <input id="postit-expiration" type="text"></input>
+<div class="vbox flex-1">
+    <textarea rows="5" id="postit-text"></textarea>
+    <div class="hbox">
+        <label for="postit-expiration">expire</label>
+        <input id="postit-expiration" type="text">
+    </div>
     <div class="hbox flex-1 align-right"><button class="align-right" id="postit-submit">submit</button></div>
 </div>
 

@@ -11,6 +11,7 @@ class AddPostitWindow extends BrowserWindow {
         super({
             width: 200,
             height: 200,
+            alwaysOnTop: true,
             webPreferences: {
                 preload: path.join(__dirname, 'AddPostitPreloader.js')
             }
@@ -23,7 +24,7 @@ class AddPostitWindow extends BrowserWindow {
             this.#controller.add_postit(value);
         })
 
-        this.on('closed', (e) => {
+        this.on('closed', () => {
             add_postit_window = null;
         })
 
@@ -36,7 +37,7 @@ class AddPostitWindow extends BrowserWindow {
 
 function create_add_postit_window(create_controller, create_request_boundary, post_office) {
         add_postit_window = new AddPostitWindow(create_controller, create_request_boundary, post_office);
-        add_postit_window.loadFile('ui/electron/add_postit/add_postit.html');
+        add_postit_window.loadFile('ui/electron/add_postit/add_postit.html').then();
         // Open the DevTools.
         // add_postit_window.webContents.openDevTools();
 }

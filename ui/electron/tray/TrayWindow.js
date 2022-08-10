@@ -20,17 +20,17 @@ class TrayWindow extends BrowserWindow {
             skipTaskbar: true,
             maximizable: false,
             webPreferences: {
-                preload: path.join(__dirname, 'preload.js')
+                preload: path.join(__dirname, 'TrayPreloader.js')
             }
         });
 
         this.#POST_OFFICE = POST_OFFICE;
 
-        ipcMain.on('tray:close',(e)=>{
+        ipcMain.on('tray:close',()=>{
             this.hide();
         })
 
-        this.on('closed', (e) => {
+        this.on('closed', () => {
             tray_window = null;
         })
     }
@@ -48,7 +48,7 @@ class TrayWindow extends BrowserWindow {
 
 function create_tray_window (ControllerFactory, PostitInteractorFactory, POST_OFFICE) {
     tray_window = new TrayWindow(POST_OFFICE);
-    tray_window.loadFile(path.join(__dirname, 'index.html')).then(() => {
+    tray_window.loadFile(path.join(__dirname, 'tray.html')).then(() => {
         tray = new Tray(path.join(__dirname, 'tray.png'));
         trayBounds = tray.getBounds();
         app.dock.hide();
@@ -69,9 +69,10 @@ function create_tray_menu(ControllerFactory, PostitInteractorFactory, POST_OFFIC
         {
             label: 'show postit', click: () => {
                 tray_window = new TrayWindow(POST_OFFICE);
-                tray_window.loadFile(path.join(__dirname, 'index.html'));
-                tray_window.fetch_postit();
-                tray_window.show();
+                tray_window.loadFile(path.join(__dirname, 'tray.html')).then(() => {
+                    tray_window.fetch_postit();
+                    tray_window.show();
+                });
             }
         },
         {
