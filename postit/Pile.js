@@ -2,7 +2,6 @@ const Postit = require("./Postit");
 
 class Pile {
     #items = [];
-    #storage = null;
 
     constructor(initial_items) {
         if (initial_items instanceof Array) {
@@ -10,9 +9,6 @@ class Pile {
         }
     }
 
-    set storage(storage) {
-        this.#storage = storage;
-    }
 
     get size() {
         return this.#items.length;
@@ -35,11 +31,11 @@ class Pile {
             let postit = Postit.from_JSON(json_item);
             postits.push(postit);
         }
+        return new Pile(postits);
     }
 
     push(item) {
         this.#items.push(item);
-        this.#storage.save();
     }
 
     pop() {
@@ -79,4 +75,4 @@ class Pile {
 
 }
 
-module.exports = Pile
+module.exports = Pile;

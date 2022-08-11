@@ -6,8 +6,9 @@ let add_postit_window;
 class AddPostitWindow extends BrowserWindow {
     #controller = null;
     #request_boundary = null;
+    #POST_OFFICE = null;
 
-    constructor(create_controller, create_request_boundary, post_office) {
+    constructor(create_controller, create_request_boundary, POST_OFFICE) {
         super({
             width: 200,
             height: 200,
@@ -17,12 +18,10 @@ class AddPostitWindow extends BrowserWindow {
             }
         });
 
-        this.#request_boundary = create_request_boundary(this, post_office);
+        this.#request_boundary = create_request_boundary(this, POST_OFFICE);
         this.#controller = create_controller(this.#request_boundary);
+        this.#POST_OFFICE = POST_OFFICE;
 
-        ipcMain.on('postit:submitted',(e, value) => {
-            this.#controller.add_postit(value);
-        })
 
         this.on('closed', () => {
             add_postit_window = null;
@@ -30,10 +29,24 @@ class AddPostitWindow extends BrowserWindow {
 
     }
 
+    on_submit(value) {
+        this.#controller.add_postit(value);
+        this.#POST_OFFICE.save();
+        this.hide();
+    }
+
     //@ResponseBoundary
     display() {
     }
 }
+
+
+
+ipcMain.on('postit:submitted',(e, value) => {
+    e.preventDefault();
+    add_postit_window.on_submit(value)
+})
+
 
 function create_add_postit_window(create_controller, create_request_boundary, post_office) {
         add_postit_window = new AddPostitWindow(create_controller, create_request_boundary, post_office);

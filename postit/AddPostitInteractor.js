@@ -15,7 +15,6 @@ class AddPostitInteractor {
 
         postit.text = postit_data.text;
         postit.expiration = new Date(+date_parts[2], date_parts[1] - 1, +date_parts[0]);
-        debugger
         pile.push(postit);
 
         this.#response_boundary.display(postit_data);

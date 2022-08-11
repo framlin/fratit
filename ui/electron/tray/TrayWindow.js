@@ -26,9 +26,7 @@ class TrayWindow extends BrowserWindow {
 
         this.#POST_OFFICE = POST_OFFICE;
 
-        ipcMain.on('tray:close',()=>{
-            this.hide();
-        })
+
 
         this.on('closed', () => {
             tray_window = null;
@@ -43,7 +41,26 @@ class TrayWindow extends BrowserWindow {
         this.webContents.send('postit:fetch', {text, expiration});
     }
 
+    delete_postit() {
+        this.#POST_OFFICE.pile.pop();
+        this.fetch_postit();
+        this.#POST_OFFICE.save();
+    }
+
 }
+
+ipcMain.on('postit:delete', (e, msg) => {
+    e.preventDefault();
+    tray_window.delete_postit();
+})
+
+
+ipcMain.on('tray:close',(e)=>{
+    e.preventDefault();
+    tray_window.hide();
+});
+
+
 
 
 function create_tray_window (ControllerFactory, PostitInteractorFactory, POST_OFFICE) {

@@ -10,12 +10,15 @@ class PileStorage {
 
     async save() {
         let serialized_pile = JSON.stringify(this.#PILE);
+        console.log(serialized_pile);
         await writeFile('data/pile.json', serialized_pile);
     }
 
     async load() {
         const file = await readFile('data/pile.json', 'utf8');
-        this.#PILE.load_from_JSON(file);
+        try {
+            this.#PILE.load_from_JSON(file);
+        } catch ( e ) {}
     }
 }
 

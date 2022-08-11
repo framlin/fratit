@@ -9,10 +9,16 @@ window.addEventListener('DOMContentLoaded', () => {
         postit_expiration.innerHTML = postit_data.expiration.toLocaleString('de-DE').split(',')[0]
     });
 
-    let body = document.querySelector('html');
-    body.addEventListener('click', () => {
+    let postit_text = document.querySelector('#postit-text');
+    postit_text.addEventListener('click', (e) => {
+        e.preventDefault();
         ipcRenderer.send('tray:close');
     });
 
+    let delete_button = document.querySelector("#postit-delete");
+    delete_button.addEventListener('click', (e) => {
+        e.preventDefault();
+        ipcRenderer.send('postit:delete', "DELETE");
+    })
 
 });

@@ -8,11 +8,14 @@ function push_two_items(pile) {
 }
 
 function create_123_pile() {
-    return new Pile([1,2,3]);
+    let new_pile =  new Pile([1,2,3]);
+    new_pile.storage = {save: () => {}, load: ()=> {}};
+    return new_pile;
 }
 
 beforeEach(() => {
     pile = new Pile();
+    pile.storage = {save: () => {}, load: ()=> {}};
 });
 
 test('creation', () => {
