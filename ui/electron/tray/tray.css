@@ -1,0 +1,20 @@
+html,
+body {
+    height: 100%;
+}
+body { position:absolute; top:0; bottom:0; right:0; left:0; }
+#tray {
+    height: 100%;
+}
+
+#footer{
+    margin-bottom: 15px;
+    border-top-style: solid;
+    padding-top: 3px;
+
+}
+
+#postit-delete{
+    align-self: flex-end;
+    margin-left: auto;
+}

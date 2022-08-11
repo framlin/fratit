@@ -1,6 +1,6 @@
 const {ipcRenderer} = require("electron");
 
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.on('postit:fetch', (e, postit_data) => {
         let postit_text = document.querySelector("#postit-text");

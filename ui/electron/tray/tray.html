@@ -5,12 +5,14 @@
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <link rel="stylesheet" href="../css/framlin.css">
+    <link rel="stylesheet" href="tray.css">
     <title>fratit</title>
 </head>
 <body>
-<div class="flex-1 vbox">
+<div id="tray" class="vbox">
     <div class="flex-1" id="postit-text">empty pile</div>
-    <div id="postit-expiration"></div>
+    <div id="footer" class="hbox "><div id="postit-expiration"></div><button class="align-right" id="postit-delete">delete</button></div>
+
 </div>
 </body>
 </html>
