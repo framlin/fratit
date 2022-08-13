@@ -8,7 +8,7 @@ class AddPostitWindow extends BrowserWindow {
     #request_boundary = null;
     #POST_OFFICE = null;
 
-    constructor(create_controller, create_request_boundary, POST_OFFICE) {
+    constructor(ControllerFactory, InteractorFactory, POST_OFFICE) {
         super({
             width: 200,
             height: 200,
@@ -18,14 +18,15 @@ class AddPostitWindow extends BrowserWindow {
             }
         });
 
-        this.#request_boundary = create_request_boundary(this, POST_OFFICE);
-        this.#controller = create_controller(this.#request_boundary);
+        this.#request_boundary = InteractorFactory.create("add_postit", this);
+        this.#controller = ControllerFactory.create("add_postit", this.#request_boundary);
         this.#POST_OFFICE = POST_OFFICE;
-
 
         this.on('closed', () => {
             add_postit_window = null;
         })
+
+        add_postit_window = this;
 
     }
 
@@ -38,6 +39,7 @@ class AddPostitWindow extends BrowserWindow {
     //@ResponseBoundary
     display() {
     }
+
 }
 
 
@@ -45,16 +47,7 @@ class AddPostitWindow extends BrowserWindow {
 ipcMain.on('postit:submitted',(e, value) => {
     e.preventDefault();
     add_postit_window.on_submit(value)
-})
+});
 
 
-function create_add_postit_window(create_controller, create_request_boundary, post_office) {
-        add_postit_window = new AddPostitWindow(create_controller, create_request_boundary, post_office);
-        add_postit_window.loadFile('ui/electron/add_postit/add_postit.html').then();
-        // Open the DevTools.
-        // add_postit_window.webContents.openDevTools();
-}
-
-
-
-module.exports = create_add_postit_window;
+module.exports = AddPostitWindow;

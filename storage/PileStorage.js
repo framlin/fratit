@@ -2,19 +2,20 @@ const { writeFile, readFile } = require('fs/promises');
 
 class PileStorage {
     #PILE
-    constructor(PILE) {
+
+    set PILE (PILE) {
         this.#PILE = PILE;
-        PILE.storage = this;
         this.load().then();
     }
 
     async save() {
+        if (!this.#PILE) throw new Error("NO PILE");
         let serialized_pile = JSON.stringify(this.#PILE);
-        console.log(serialized_pile);
         await writeFile('data/pile.json', serialized_pile);
     }
 
     async load() {
+        if (!this.#PILE) throw new Error("NO PILE");
         const file = await readFile('data/pile.json', 'utf8');
         try {
             this.#PILE.load_from_JSON(file);
@@ -22,5 +23,6 @@ class PileStorage {
     }
 }
 
+const PILE_STORAGE = new PileStorage();
 
-module.exports = PileStorage;
+module.exports = PILE_STORAGE;

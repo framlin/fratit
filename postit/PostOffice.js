@@ -1,15 +1,18 @@
 const Pile = require("./Pile");
 const Postit = require("./Postit");
-const PileStorage = require("./PileStorage");
 
 class PostOffice {
     #pile;
-    #pile_storage;
+    #storage;
     #id
-    constructor(pile, pile_storage) {
+    constructor(pile) {
         this.#pile = pile;
-        this.#pile_storage = pile_storage;
         this.#id = 0;
+    }
+
+    set storage(storage) {
+        this.#storage = storage;
+        this.#storage.PILE = this.#pile;
     }
 
     get pile() {
@@ -17,13 +20,21 @@ class PostOffice {
     }
 
     load() {
-        this.#pile_storage.load();
+        if (this.#storage) {
+            this.#storage.load();
+        } else {
+            throw new Error("NO PILE_STORAGE");
+        }
     }
 
     save() {
-        this.#pile_storage.save();
-        // console.log(this.#pile);
+        if (this.#storage) {
+            this.#storage.save();
+        } else {
+            throw new Error("NO PILE_STORAGE");
+        }
     }
+
 
     create_postit() {
         return new Postit();
@@ -41,7 +52,6 @@ class PostOffice {
 }
 
 const PILE = new Pile();
-const PILE_STORAGE = new PileStorage(PILE);
-const POST_OFFICE = new PostOffice(PILE, PILE_STORAGE);
+const POST_OFFICE = new PostOffice(PILE);
 
 module.exports = POST_OFFICE;
