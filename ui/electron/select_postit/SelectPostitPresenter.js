@@ -10,20 +10,27 @@ class SelectPostitPresenter extends PostitPresenter{
         use_case = UseCase;
     }
 
-    on_select(value) {
-        this._controller.select_postit(value);
+    on_select(index) {
+        this._controller.postit_selected(index);
         this._POST_OFFICE.save();
         this.hide();
     }
 
+    run_use_case() {
+        this._controller.run_use_case();
+    }
+
     //@ResponseBoundary
-    display() {
+    display(postits) {
+        if (postits instanceof Array) {
+            this.webContents.send('postit_list', postits);
+        }
     }
 }
 
-ipcMain.on('postit:selected',(e, value) => {
+ipcMain.on('postit:selected',(e, index) => {
     e.preventDefault();
-    use_case.presenter.on_select(value)
+    use_case.presenter.on_select(index)
 });
 
 

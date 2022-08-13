@@ -3,6 +3,8 @@ class PostitController{
     constructor(interactor) {
         this._interactor = interactor;
     }
+
+
 }
 
 module.exports = PostitController;

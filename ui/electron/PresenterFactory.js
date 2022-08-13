@@ -39,7 +39,9 @@ const PostitPresenter = {
     select_postit: (ControllerFactory, InteractorFactory, POST_OFFICE) => {
         return (UseCase) => {
             let select_postit_presenter = new SelectPostitPresenter(UseCase, ControllerFactory, InteractorFactory, POST_OFFICE);
-            select_postit_presenter.loadFile('ui/electron/select_postit/select_postit.html').then();
+            select_postit_presenter.loadFile('ui/electron/select_postit/select_postit.html').then(() => {
+                select_postit_presenter.run_use_case();
+            });
             // Open the DevTools.
             // add_postit_window.webContents.openDevTools();
             return select_postit_presenter;

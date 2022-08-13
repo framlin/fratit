@@ -1,17 +1,17 @@
 const {ipcRenderer} = require("electron");
 
-window.addEventListener('DOMContentLoaded', (event) => {
-
-    //on-click of a postit of the pistit list, "postit:seöected", selected_postit woll be sent
-
-    // let submit_button = document.querySelector("#postit-submit");
-    // submit_button.addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     let postit_text = document.querySelector("#postit-text");
-    //     let postit_expiration = document.querySelector("#postit-expiration");
-    //
-    //     let postit_data = {text: postit_text.value, expiration: postit_expiration.value};
-    //     ipcRenderer.send('postit:submitted', postit_data);
-    //
-    // });
+ipcRenderer.on('postit_list', (e, postits) => {
+    let body = document.querySelector('body');
+    postits.forEach((postit,i) => {
+        let postit_div = document.createElement("div");
+        postit_div.innerHTML = postit;
+        postit_div.setAttribute('data-index', i);
+        postit_div.addEventListener('click', (e) => {
+            let selected_posted = e.target;
+            let index = selected_posted.getAttribute('data-index');
+            ipcRenderer.send('postit:selected', index);
+        });
+        body.appendChild(postit_div);
+    });
 });
+
