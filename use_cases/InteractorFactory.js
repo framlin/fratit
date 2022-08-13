@@ -1,7 +1,9 @@
 const AddPostitInteractor = require("./add_postit/AddPostitInteractor");
+const SelectPostitInteractor = require("./select_postit/SelectPostitInteractor");
 
 const PostitInteractor = {
-    add_postit: AddPostitInteractor
+    add_postit: (presenter) => new AddPostitInteractor(presenter, InteractorFactory.POST_OFFICE),
+    select_postit: (presenter) => new SelectPostitInteractor(presenter, InteractorFactory.POST_OFFICE),
 }
 
 class InteractorFactory {
@@ -11,11 +13,8 @@ class InteractorFactory {
     }
 
     static create(interactor, presenter) {
-        return new PostitInteractor[interactor](presenter, InteractorFactory.POST_OFFICE);
+        return PostitInteractor[interactor](presenter);
     }
-    // static create_add_postit_interactor(response_boundary, POST_OFFICE) {
-    //     return new AddPostitInteractor(response_boundary, POST_OFFICE);
-    // }
 }
 
 module.exports = InteractorFactory;

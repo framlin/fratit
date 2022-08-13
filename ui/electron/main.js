@@ -5,21 +5,21 @@ const PILE_STORAGE = require("../../storage/PileStorage");
 POST_OFFICE.storage = PILE_STORAGE;
 
 const InteractorFactory = require("../../use_cases/InteractorFactory");
-const ControllerFactory = require("./ControllerFactory");
-const WindowFactory = require("./WindowFactory");
+const ControllerFactory = require("../../use_cases/ControllerFactory");
+const PresenterFactory = require("./PresenterFactory");
 const UseCaseFactory = require("../../use_cases/UseCaseFactory");
 
 
-WindowFactory.config(ControllerFactory, InteractorFactory, POST_OFFICE);
+PresenterFactory.config(ControllerFactory, InteractorFactory, POST_OFFICE);
 InteractorFactory.config(POST_OFFICE);
-UseCaseFactory.config(WindowFactory);
+UseCaseFactory.config(PresenterFactory);
 
 app.whenReady().then(() => {
-    WindowFactory.create('tray')(UseCaseFactory);
+    PresenterFactory.create('tray')(UseCaseFactory);
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
-            WindowFactory.create('tray')(UseCaseFactory);
+            PresenterFactory.create('tray')(UseCaseFactory);
         }
     });
 });

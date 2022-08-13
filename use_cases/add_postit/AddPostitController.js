@@ -1,11 +1,12 @@
-class AddPostitController{
-    #request_boundary = null;
-    constructor(request_boundary) {
-        this.#request_boundary = request_boundary;
+const PostitController = require("../PostitController");
+
+class AddPostitController extends PostitController{
+    constructor(interactor) {
+        super(interactor)
     }
 
     add_postit(postit_data) {
-        this.#request_boundary.execute(postit_data);
+        this._interactor.execute(postit_data);
     }
 }
 

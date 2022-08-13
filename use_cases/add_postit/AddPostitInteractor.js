@@ -1,23 +1,21 @@
-class AddPostitInteractor {
-    #response_boundary = null;
-    #POST_OFFICE = null;
+const PostitInteractor = require("../PostitInteractor");
 
-    constructor(response_boundary, POST_OFFICE) {
-        this.#response_boundary = response_boundary;
-        this.#POST_OFFICE = POST_OFFICE;
+class AddPostitInteractor extends PostitInteractor{
+    constructor(presenter, POST_OFFICE) {
+        super(presenter, POST_OFFICE);
     }
 
     //@RequestBoundary
     execute(postit_data) {
-        let pile = this.#POST_OFFICE.pile;
-        let postit = this.#POST_OFFICE.create_postit();
+        let pile = this._POST_OFFICE.pile;
+        let postit = this._POST_OFFICE.create_postit();
         let date_parts = postit_data.expiration.split('.');
 
         postit.text = postit_data.text;
         postit.expiration = new Date(+date_parts[2], date_parts[1] - 1, +date_parts[0]);
         pile.push(postit);
 
-        this.#response_boundary.display(postit_data);
+        this._presenter.display(postit_data);
     }
 }
 

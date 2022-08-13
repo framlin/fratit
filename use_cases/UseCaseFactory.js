@@ -1,7 +1,10 @@
 const UseCases = {
-    add_postit: () => {
-        return UseCaseFactory.WindowFactory.create('add_postit');
-    }
+    add_postit: (use_case) => UseCaseFactory.WindowFactory.create(use_case)({
+        name: use_case
+    }),
+    select_postit: (use_case) => UseCaseFactory.WindowFactory.create(use_case)({
+        name: use_case
+    }),
 }
 
 
@@ -12,7 +15,7 @@ class UseCaseFactory {
     }
 
     static create(use_case) {
-        return UseCases[use_case];
+        return UseCases[use_case](use_case);
     }
 }
 

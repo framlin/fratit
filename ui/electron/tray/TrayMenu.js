@@ -14,12 +14,12 @@ function TRAY_MENU (UseCaseFactory, TrayWindow, context) {
         },
         {
             label: 'add postit', click: () => {
-                UseCaseFactory.create('add_postit')();
+                UseCaseFactory.create('add_postit');
             }
         },
         {
             label: 'select postit', click: () => {
-                UseCaseFactory.create('select_postit')();
+                UseCaseFactory.create('select_postit');
             }
         },
     ]);
