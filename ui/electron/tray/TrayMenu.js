@@ -5,11 +5,7 @@ function TRAY_MENU (UseCaseFactory, TrayWindow, context) {
     return Menu.buildFromTemplate([
         {
             label: 'show postit', click: () => {
-                context.tray_window = new TrayWindow(UseCaseFactory.PresenterFactory.POST_OFFICE);
-                context.tray_window.loadFile(path.join(__dirname, './tray.html')).then(() => {
-                    context.tray_window.fetch_postit();
-                    context.tray_window.show();
-                });
+                UseCaseFactory.create('show_postit');
             }
         },
         {

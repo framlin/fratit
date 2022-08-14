@@ -11,6 +11,7 @@ class PostitPresenter extends BrowserWindow {
             width: 200,
             height: 200,
             alwaysOnTop: true,
+            backgroundThrottling: false,
             webPreferences: {
                 preload: preloader_path
             }

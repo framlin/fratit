@@ -5,6 +5,17 @@ const UseCases = {
     select_postit: (use_case) => UseCaseFactory.PresenterFactory.create(use_case)({
         name: use_case
     }),
+    show_postit: (use_case) => UseCaseFactory.PresenterFactory.create(use_case)({
+        name: use_case
+    }),
+    show_postit: (use_case) => UseCaseFactory.PresenterFactory.create(use_case)({
+        name: use_case
+    }),
+    flash_postit: (use_case) => {
+        setInterval(()=>{
+            UseCaseFactory.create('show_postit');
+        }, 60000*60); //1h
+    },
 }
 
 

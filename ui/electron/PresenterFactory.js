@@ -47,6 +47,19 @@ const PostitPresenter = {
             return select_postit_presenter;
         }
     },
+
+    show_postit: (ControllerFactory, InteractorFactory, POST_OFFICE) => {
+        return (UseCase) => {
+            let tray_window = new TrayWindow(POST_OFFICE);
+            tray_window.loadFile(path.join(__dirname, './tray/tray.html')).then(() => {
+                tray_window.fetch_postit();
+                tray_window.show();
+            });
+            // Open the DevTools.
+            // add_postit_window.webContents.openDevTools();
+            return tray_window;
+        }
+    }
 };
 
 class PresenterFactory {

@@ -16,12 +16,14 @@ UseCaseFactory.config(PresenterFactory);
 
 app.whenReady().then(() => {
     PresenterFactory.create('tray')(UseCaseFactory);
+    UseCaseFactory.create('flash_postit');
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
             PresenterFactory.create('tray')(UseCaseFactory);
         }
     });
+
 });
 
 app.on('window-all-closed', () => {
