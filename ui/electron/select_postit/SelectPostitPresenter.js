@@ -13,7 +13,6 @@ class SelectPostitPresenter extends PostitPresenter{
     on_select(index) {
         this._controller.postit_selected(index);
         this._POST_OFFICE.save();
-        this.hide();
     }
 
     run_use_case() {

@@ -1,0 +1,17 @@
+
+.postit-item:first-child {
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+}
+
+.postit-item:nth-child(even) {
+    background-color: #efd28a;
+}
+
+.postit-item:nth-child(odd) {
+    background-color: #f8dfc6;
+}
+
+.postit-item {
+    padding: 10px;
+}
