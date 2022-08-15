@@ -5,19 +5,22 @@ const {Tray, app} = require("electron");
 const TRAY_MENU = require("./tray/TrayMenu");
 const SelectPostitPresenter = require("./select_postit/SelectPostitPresenter");
 
-const PostitPresenter = {
+let tray = null;
 
+const PostitPresenter = {
     tray: (ControllerFactory, InteractorFactory, POST_OFFICE) => {
         return (UseCaseFactory) => {
             let tray_window = new TrayWindow(POST_OFFICE);
             tray_window.loadFile(path.join(__dirname, './tray/tray.html')).then(() => {
-                let tray = new Tray(path.join(__dirname, './tray/tray.png'));
-                // app.dock.hide();
 
-                const tray_menu = TRAY_MENU (UseCaseFactory, TrayWindow, {tray_window})
+                if (!tray) {
+                    tray = new Tray(path.join(__dirname, './tray/tray.png'));
+                    // app.dock.hide();
+                    const tray_menu = TRAY_MENU (UseCaseFactory, TrayWindow, {tray_window})
+                    tray.setToolTip('FRAmlins posTIT')
+                    tray.setContextMenu(tray_menu);
+                }
 
-                tray.setToolTip('FRAmlins posTIT')
-                tray.setContextMenu(tray_menu);
 
                 // Open the DevTools.
                 // tray_window.webContents.openDevTools()

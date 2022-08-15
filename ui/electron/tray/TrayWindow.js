@@ -29,6 +29,7 @@ class TrayWindow extends BrowserWindow {
             tray_window = null;
         })
 
+        tray_window = null;
         tray_window = this;
     }
 
@@ -49,13 +50,11 @@ class TrayWindow extends BrowserWindow {
 }
 
 ipcMain.on('postit:delete', (e) => {
-    e.preventDefault();
     tray_window.delete_postit();
 })
 
 
 ipcMain.on('tray:close',(e)=>{
-    e.preventDefault();
     tray_window.hide();
 });
 
