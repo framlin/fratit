@@ -13,7 +13,7 @@ beforeEach(async () => {
     await app.isReady;
 })
 
-test('electron Test Driver', async () => {
+test.skip('electron Test Driver', async () => {
 
     let result = await app.rpc('a_test');
 
