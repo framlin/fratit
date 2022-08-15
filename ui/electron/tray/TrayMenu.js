@@ -18,6 +18,11 @@ function TRAY_MENU (UseCaseFactory, TrayWindow, context) {
                 UseCaseFactory.create('select_postit');
             }
         },
+        {
+            label: 'quit postit', click: () => {
+                UseCaseFactory.create('quit_postit');
+            }
+        },
     ]);
 }
 
