@@ -12,7 +12,7 @@ const PostitPresenter = {
             let tray_window = new TrayWindow(POST_OFFICE);
             tray_window.loadFile(path.join(__dirname, './tray/tray.html')).then(() => {
                 let tray = new Tray(path.join(__dirname, './tray/tray.png'));
-                app.dock.hide();
+                // app.dock.hide();
 
                 const tray_menu = TRAY_MENU (UseCaseFactory, TrayWindow, {tray_window})
 
