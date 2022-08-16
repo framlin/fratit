@@ -20,15 +20,23 @@ const UseCases = {
 }
 
 
+class NoSuchUseCase_ extends Error{};
 class UseCaseFactory {
-    static PresenterFactory;
 
-    static config(window_factory) {
-        UseCaseFactory.PresenterFactory = window_factory;
+    static PresenterFactory;
+    static NoSuchUseCase = NoSuchUseCase_;
+
+
+    static config(presenter_factory) {
+        UseCaseFactory.PresenterFactory = presenter_factory;
     }
 
     static create(use_case) {
-        return UseCases[use_case](use_case);
+        if (! UseCases[use_case]) {
+            throw new UseCaseFactory.NoSuchUseCase();
+        } else {
+            return UseCases[use_case](use_case);
+        }
     }
 }
 
