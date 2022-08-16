@@ -9,17 +9,18 @@ class SelectPostitInteractor extends PostitInteractor{
         this._inform_presenter();
     }
 
-    _inform_presenter() {
-        let postit_list = this._create_postit_list();
-        this._presenter.display(postit_list);
-    }
-
     postit_selected(postit_index) {
         let pile = this._POST_OFFICE.pile;
         let postit = pile.take(postit_index);
         pile.push(postit);
 
         this._inform_presenter();
+    }
+
+
+    _inform_presenter() {
+        let postit_list = this._create_postit_list();
+        this._presenter.display(postit_list);
     }
 
 
