@@ -1,7 +1,17 @@
-const { writeFile, readFile } = require('fs/promises');
+const { writeFile, readFile, access, constants, mkdir } = require('fs/promises');
+// const {existsSync} = require('fs');
 
+const path = require('path');
 class PileStorage {
     #PILE
+    #path
+
+    constructor () {
+        this.#path = path.join(__dirname, 'data');
+        access(this.#path).catch(() => {
+            mkdir(this.#path).then();
+        });
+    }
 
     set PILE (PILE) {
         this.#PILE = PILE;
@@ -11,12 +21,12 @@ class PileStorage {
     async save() {
         if (!this.#PILE) throw new Error("NO PILE");
         let serialized_pile = JSON.stringify(this.#PILE);
-        await writeFile('data/pile.json', serialized_pile);
+        await writeFile(path.join(__dirname, 'data/pile.json'), serialized_pile);
     }
 
     async load() {
         if (!this.#PILE) throw new Error("NO PILE");
-        const file = await readFile('data/pile.json', 'utf8');
+        const file = await readFile(path.join(__dirname, 'data/pile.json'), 'utf8');
         try {
             this.#PILE.load_from_JSON(file);
         } catch ( e ) {}
