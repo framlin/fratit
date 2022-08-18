@@ -2,6 +2,9 @@ const {ipcRenderer} = require("electron");
 
 ipcRenderer.on('postit_list', (e, postits) => {
     let postit_list = document.querySelector('#postit-list');
+    while(postit_list.firstChild) {
+        postit_list.removeChild(postit_list.firstChild);
+    }
     postits.forEach((postit,i) => {
         let postit_div = document.createElement("div");
         postit_div.innerHTML = postit;
