@@ -6,8 +6,8 @@ class PileStorage {
     #PILE
     #path
 
-    constructor () {
-        this.#path = path.join(__dirname, 'data');
+    config (storage_path) {
+        this.#path = storage_path;
         access(this.#path).catch(() => {
             mkdir(this.#path).then();
         });
@@ -15,18 +15,17 @@ class PileStorage {
 
     set PILE (PILE) {
         this.#PILE = PILE;
-        this.load().then();
     }
 
     async save() {
         if (!this.#PILE) throw new Error("NO PILE");
         let serialized_pile = JSON.stringify(this.#PILE);
-        await writeFile(path.join(__dirname, 'data/pile.json'), serialized_pile);
+        await writeFile(path.join(this.#path, 'pile.json'), serialized_pile);
     }
 
     async load() {
         if (!this.#PILE) throw new Error("NO PILE");
-        const file = await readFile(path.join(__dirname, 'data/pile.json'), 'utf8');
+        const file = await readFile(path.join(this.#path, 'pile.json'), 'utf8');
         try {
             this.#PILE.load_from_JSON(file);
         } catch ( e ) {}

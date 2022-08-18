@@ -2,13 +2,46 @@ const {app, BrowserWindow} = require('electron');
 
 const POST_OFFICE = require("../../postit/PostOffice");
 const PILE_STORAGE = require("../../storage/PileStorage");
+
 POST_OFFICE.storage = PILE_STORAGE;
 
 const InteractorFactory = require("../../use_cases/InteractorFactory");
 const ControllerFactory = require("../../use_cases/ControllerFactory");
 const PresenterFactory = require("./PresenterFactory");
 const UseCaseFactory = require("../../use_cases/UseCaseFactory");
+const path = require("path");
+const {readFile, writeFile} = require("fs/promises");
 
+const CONFIG_FILE_NAME = path.join(app.getPath("userData"), 'config.json');
+let FRATIT_CONFIG;
+
+async function  load_config() {
+    const config_file = await readFile(CONFIG_FILE_NAME, 'utf8');
+
+    FRATIT_CONFIG = JSON.parse(config_file);
+
+    if (!FRATIT_CONFIG.pile_storage) {
+        FRATIT_CONFIG.pile_storage = "piles";
+    }
+
+    let storage_dir = FRATIT_CONFIG.pile_storage;
+    let storage_path = path.join(app.getPath("userData"), storage_dir);
+
+    PILE_STORAGE.config(storage_path);
+    PILE_STORAGE.load().then();
+}
+
+async function  save_config(config) {
+    let serialized_config = JSON.stringify(config);
+    await writeFile(CONFIG_FILE_NAME, serialized_config);
+}
+
+load_config().then(() => {
+}).catch(() => {
+    FRATIT_CONFIG = {
+        pile_storage: "piles",
+    }
+});
 
 PresenterFactory.config(ControllerFactory, InteractorFactory, POST_OFFICE);
 InteractorFactory.config(POST_OFFICE);
@@ -32,6 +65,9 @@ app.on('window-all-closed', () => {
     }
 });
 
+app.on('before-quit', () => {
+    save_config(FRATIT_CONFIG).then();
+});
 
 //================================    TEST     ==================================
 const METHODS = {
