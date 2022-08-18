@@ -31,7 +31,7 @@ class Postit {
 
         result.#text = obj.text;
         result.#creationDate = obj.creationDate;
-        result.#expiration = obj.expiration;
+        result.#expiration = new Date(obj.expiration);
         return result;
     }
 

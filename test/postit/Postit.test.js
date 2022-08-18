@@ -24,13 +24,14 @@ test('that a de-serialized postit has type postit', () => {
 });
 
 test('that a de-serialized properties are correct', () => {
+    let date = new Date(2022,1,1);
     postit.text = 'text';
-    postit.expiration = '01.01.2023';
+    postit.expiration = date;
 
     let json = JSON.stringify(postit);
     let de_serialized = Postit.from_JSON(json);
 
-    expect(de_serialized.expiration).toBe('01.01.2023');
+    expect(de_serialized.expiration).toStrictEqual(date);
     expect(de_serialized.text).toBe("text");
     expect(de_serialized).toStrictEqual(postit);
 });
