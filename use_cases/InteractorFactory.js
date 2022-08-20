@@ -12,8 +12,8 @@ class InteractorFactory {
         InteractorFactory.POST_OFFICE = post_office;
     }
 
-    static create(interactor, use_case) {
-        return PostitInteractor[interactor](use_case);
+    static create(use_case) {
+        return PostitInteractor[use_case.name](use_case);
     }
 }
 

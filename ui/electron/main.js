@@ -44,7 +44,7 @@ load_config().then(() => {
     }
 });
 
-ViewFactory.config(ControllerFactory, InteractorFactory, POST_OFFICE);
+ViewFactory.config(POST_OFFICE);
 InteractorFactory.config(POST_OFFICE);
 UseCaseFactory.config(ViewFactory, PresenterFactory, ControllerFactory, InteractorFactory, POST_OFFICE);
 

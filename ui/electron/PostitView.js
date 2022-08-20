@@ -6,7 +6,7 @@ class PostitView extends BrowserWindow {
     _interactor = null;
     _POST_OFFICE = null;
 
-    constructor(use_case, preloader_path, ControllerFactory, InteractorFactory, POST_OFFICE) {
+    constructor(use_case, preloader_path, controller, interactor, POST_OFFICE) {
         super({
             width: 200,
             height: 200,
@@ -17,8 +17,8 @@ class PostitView extends BrowserWindow {
             }
         });
 
-        this._interactor = InteractorFactory.create(use_case.name, this);
-        this._controller = ControllerFactory.create(use_case.name, this._interactor);
+        this._interactor = interactor;
+        this._controller = controller;
         this._POST_OFFICE = POST_OFFICE;
 
         this.on('closed', () => {

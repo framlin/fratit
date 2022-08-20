@@ -12,7 +12,6 @@ class AddPostitPresenter extends PostitPresenter{
     }
 
     present(postit_data) {
-        console.log(postit_data);
     };
 
 }

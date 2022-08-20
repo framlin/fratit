@@ -1,14 +1,14 @@
 const {app} = require('electron');
 
 function common_use_case_creation(use_case_name) {
-        let use_case = {
-            name: use_case_name,
-        }
-        let view = UseCaseFactory.ViewFactory.create(use_case_name)(use_case);
-        let interactor = UseCaseFactory.InteractorFactory.create(use_case_name, use_case);
-        let controller = UseCaseFactory.ControllerFactory.create(use_case_name, interactor);
-        UseCaseFactory.PresenterFactory.create(use_case_name)(use_case, view, controller, UseCaseFactory.POST_OFFICE);
-        return view;
+    let use_case = {
+        name: use_case_name,
+    }
+    let interactor = UseCaseFactory.InteractorFactory.create(use_case);
+    let controller = UseCaseFactory.ControllerFactory.create(use_case_name, interactor);
+    let view = UseCaseFactory.ViewFactory.create(use_case_name, controller, interactor)(use_case);
+    UseCaseFactory.PresenterFactory.create(use_case_name)(use_case, view, controller, UseCaseFactory.POST_OFFICE);
+    return view;
 }
 
 const UseCases = {
