@@ -1,7 +1,6 @@
 const {Menu} = require("electron");
-const path = require("path");
 
-function TRAY_MENU (UseCaseFactory, TrayWindow, context) {
+function TRAY_MENU (UseCaseFactory) {
     return Menu.buildFromTemplate([
         {
             label: 'show postit', click: () => {
