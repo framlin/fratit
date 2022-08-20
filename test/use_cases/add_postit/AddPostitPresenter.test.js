@@ -1,0 +1,78 @@
+const AddPostitPresenter = require("../../../use_cases/add_postit/AddPostitPresenter");
+const SelectPostitPresenter = require("../../../use_cases/select_postit/SelectPostitPresenter");
+const {add} = require("nodemon/lib/rules");
+
+class controller_stub {
+    add_postit_called = false
+    passed_value = -1;
+    run_use_case_called = false;
+
+    run_use_case() {
+        this.run_use_case_called = true;
+    }
+
+    add_postit(value) {
+        this.add_postit_called = true;
+        this.passed_value = value;
+    }
+}
+
+let stubbed_controller = new controller_stub();
+
+class post_office_stub {
+    save_called = false;
+
+    save() {
+        this.save_called = true;
+    }
+}
+
+let stubbed_post_office = new post_office_stub()
+let use_case_stub = {
+    name: 'add_postit',
+    presenter: null
+}
+
+class view_stub{
+    display_called = false;
+    arg_passed = null;
+    once (e, callback) {
+        callback();
+    }
+    display(elem) {
+        this.display_called = true;
+        this.arg_passed = elem;
+    }
+}
+let stubbed_view = new view_stub();
+
+let add_postit_presenter
+beforeEach(() => {
+    add_postit_presenter = new AddPostitPresenter(
+        use_case_stub, stubbed_view, stubbed_controller, stubbed_post_office
+    );
+});
+
+test('AddPostitPresenterCreation', () => {
+    expect(add_postit_presenter).toBeInstanceOf(AddPostitPresenter);
+    expect(stubbed_controller.run_use_case_called).toBe(false);
+});
+
+test('on_submit', () => {
+    add_postit_presenter.on_submit(42);
+
+    expect(stubbed_controller.add_postit_called).toBe(true);
+    expect(stubbed_controller.passed_value).toBe(42);
+    expect(stubbed_post_office.save_called).toBe(true);
+});
+
+test('run_use_case', () => {
+    add_postit_presenter.run_use_case()
+    expect(stubbed_controller.run_use_case_called).toBe(true);
+});
+
+test('present', () => {
+    add_postit_presenter.present(42);
+    expect(stubbed_view.display_called).toBe(false)
+    expect(stubbed_view.arg_passed).toStrictEqual(null);
+})

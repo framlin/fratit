@@ -12,6 +12,17 @@ class PostitPresenter {
         this._POST_OFFICE = post_office;
         this._use_case.presenter = this;
     }
+
+    run_use_case() {
+        this._controller.run_use_case();
+    }
+
+    //@ResponseBoundary
+    present(postit_data) {
+        this._view.display(postit_data);
+    };
+
+
 }
 
 module.exports = PostitPresenter;

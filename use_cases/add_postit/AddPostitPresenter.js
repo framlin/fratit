@@ -11,7 +11,9 @@ class AddPostitPresenter extends PostitPresenter{
         this._POST_OFFICE.save();
     }
 
+
     present(postit_data) {
+        //must not do anything
     };
 
 }

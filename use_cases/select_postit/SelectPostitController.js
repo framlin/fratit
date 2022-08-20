@@ -5,10 +5,6 @@ class SelectPostitController extends PostitController {
         super(interactor)
     }
 
-    run_use_case() {
-        this._interactor.execute();
-    }
-
     postit_selected(index) {
         this._interactor.postit_selected(index);
     }

@@ -8,8 +8,7 @@ class PostitInteractor {
     }
 
     //@RequestBoundary
-    execute() {
-    }
+    execute() {}
 }
 
 module.exports = PostitInteractor;

@@ -4,6 +4,9 @@ class PostitController{
         this._interactor = interactor;
     }
 
+    run_use_case() {
+        this._interactor.execute();
+    }
 
 }
 

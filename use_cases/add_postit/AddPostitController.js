@@ -8,6 +8,7 @@ class AddPostitController extends PostitController{
     add_postit(postit_data) {
         this._interactor.execute(postit_data);
     }
+
 }
 
 module.exports = AddPostitController;

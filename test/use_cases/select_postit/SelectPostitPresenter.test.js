@@ -1,5 +1,5 @@
 // const SelectPostitPresenter = require("../../ui/electron/select_postit/SelectPostitPresenter");
-const SelectPostitPresenter = require("../../use_cases/select_postit/SelectPostitPresenter");
+const SelectPostitPresenter = require("../../../use_cases/select_postit/SelectPostitPresenter");
 
 class controller_stub {
     postit_selected_called = false

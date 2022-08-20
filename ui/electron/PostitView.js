@@ -30,9 +30,7 @@ class PostitView extends BrowserWindow {
 
     }
 
-    //@ResponseBoundary
-    display() {
-    }
+    display() {}
 
 }
 
