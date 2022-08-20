@@ -1,8 +1,8 @@
 const PostitInteractor = require("../PostitInteractor");
 
 class AddPostitInteractor extends PostitInteractor{
-    constructor(presenter, POST_OFFICE) {
-        super(presenter, POST_OFFICE);
+    constructor(use_case, POST_OFFICE) {
+        super(use_case, POST_OFFICE);
     }
 
     //@RequestBoundary
@@ -15,7 +15,7 @@ class AddPostitInteractor extends PostitInteractor{
         postit.expiration = new Date(+date_parts[2], date_parts[1] - 1, +date_parts[0]);
         pile.push(postit);
 
-        this._presenter.display(postit_data);
+        this._use_case.presenter.present(postit_data);
     }
 }
 

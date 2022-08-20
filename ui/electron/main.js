@@ -7,10 +7,11 @@ POST_OFFICE.storage = PILE_STORAGE;
 
 const InteractorFactory = require("../../use_cases/InteractorFactory");
 const ControllerFactory = require("../../use_cases/ControllerFactory");
-const PresenterFactory = require("./PresenterFactory");
+const ViewFactory = require("./ViewFactory");
 const UseCaseFactory = require("../../use_cases/UseCaseFactory");
 const path = require("path");
 const {readFile, writeFile} = require("fs/promises");
+const PresenterFactory = require("../../use_cases/PresenterFactory");
 
 const CONFIG_FILE_NAME = path.join(app.getPath("userData"), 'config.json');
 let FRATIT_CONFIG;
@@ -43,17 +44,17 @@ load_config().then(() => {
     }
 });
 
-PresenterFactory.config(ControllerFactory, InteractorFactory, POST_OFFICE);
+ViewFactory.config(ControllerFactory, InteractorFactory, POST_OFFICE);
 InteractorFactory.config(POST_OFFICE);
-UseCaseFactory.config(PresenterFactory);
+UseCaseFactory.config(ViewFactory, PresenterFactory, ControllerFactory, InteractorFactory, POST_OFFICE);
 
 app.whenReady().then(() => {
-    PresenterFactory.create('tray')(UseCaseFactory);
+    ViewFactory.create('tray')(UseCaseFactory);
     UseCaseFactory.create('flash_postit');
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
-            PresenterFactory.create('tray')(UseCaseFactory);
+            ViewFactory.create('tray')(UseCaseFactory);
         }
     });
 

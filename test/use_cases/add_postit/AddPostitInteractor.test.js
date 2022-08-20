@@ -18,13 +18,13 @@ it('executes by pushing the passed data to the top of the pile', () => {
     let passed_postit = null;
     let display_called = false;
     let presenter = {
-        display: (postit) => {
+        present: (postit) => {
             display_called = true;
             passed_postit = postit;
         }
     }
     let date = new Date(2022, 1, 1);
-    let interactor = new AddPostitInteractor(presenter, post_office);
+    let interactor = new AddPostitInteractor({presenter}, post_office);
     interactor.execute(postit_data);
 
     expect(display_called).toBe(true);

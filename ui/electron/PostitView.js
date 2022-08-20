@@ -1,9 +1,9 @@
 const {BrowserWindow} = require('electron');
 const path = require("path");
 
-class PostitPresenter extends BrowserWindow {
+class PostitView extends BrowserWindow {
     _controller = null;
-    _request_boundary = null;
+    _interactor = null;
     _POST_OFFICE = null;
 
     constructor(use_case, preloader_path, ControllerFactory, InteractorFactory, POST_OFFICE) {
@@ -17,15 +17,15 @@ class PostitPresenter extends BrowserWindow {
             }
         });
 
-        this._request_boundary = InteractorFactory.create(use_case.name, this);
-        this._controller = ControllerFactory.create(use_case.name, this._request_boundary);
+        this._interactor = InteractorFactory.create(use_case.name, this);
+        this._controller = ControllerFactory.create(use_case.name, this._interactor);
         this._POST_OFFICE = POST_OFFICE;
 
         this.on('closed', () => {
-            use_case.presenter = null;
+            use_case.view = null;
         })
 
-        use_case.presenter = this;
+        use_case.view = this;
 
 
     }
@@ -36,4 +36,4 @@ class PostitPresenter extends BrowserWindow {
 
 }
 
-module.exports = PostitPresenter;
+module.exports = PostitView;

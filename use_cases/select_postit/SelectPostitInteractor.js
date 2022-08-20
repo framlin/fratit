@@ -1,8 +1,8 @@
 const PostitInteractor = require("../PostitInteractor");
 
 class SelectPostitInteractor extends PostitInteractor{
-    constructor(presenter, POST_OFFICE) {
-        super(presenter, POST_OFFICE);
+    constructor(use_case, POST_OFFICE) {
+        super(use_case, POST_OFFICE);
     }
 
     execute() {
@@ -20,7 +20,7 @@ class SelectPostitInteractor extends PostitInteractor{
 
     _inform_presenter() {
         let postit_list = this._create_postit_list();
-        this._presenter.display(postit_list);
+        this._use_case.presenter.present(postit_list);
     }
 
 

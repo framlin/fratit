@@ -1,10 +1,10 @@
 const SelectPostitInteractor = require("../../../use_cases/select_postit/SelectPostitInteractor");
 it('executes by passing the presenter all postits as a list', () => {
-    let display_called = false;
+    let present_called = false;
     let passed_list = [];
     let presenter_stub = {
-        display: (list) => {
-            display_called = true;
+        present: (list) => {
+            present_called = true;
             passed_list = list;
         }
     };
@@ -15,10 +15,10 @@ it('executes by passing the presenter all postits as a list', () => {
     let post_office_stub = {
         pile: {all: postits}
     };
-    let interactor = new SelectPostitInteractor(presenter_stub, post_office_stub);
+    let interactor = new SelectPostitInteractor({presenter: presenter_stub}, post_office_stub);
     interactor.execute();
     expect(passed_list).toStrictEqual([1,2,3]);
-    expect(display_called).toBe(true);
+    expect(present_called).toBe(true);
 });
 
 
@@ -39,19 +39,20 @@ it('reacts to postit_selected, by moving the selected postit to the top', () => 
             postits.push(elem);
         }
     }
-    let display_called = false;
-    let displayed_list = [];
+    let present_called = false;
+    let passed_list = [];
     let take_called = false;
-    let interactor = new SelectPostitInteractor({
-        //presenter
-        display: (list) => {
-            displayed_list = list;
-            display_called = true;
+    let interactor = new SelectPostitInteractor({presenter: {
+            //presenter
+            present: (list) => {
+                passed_list = list;
+                present_called = true;
+            }
         }
     }, {
         pile: new PILE()
     });
     interactor.postit_selected(1);
     expect(take_called).toBe(true);
-    expect(displayed_list).toStrictEqual([1, 3, 2]);
+    expect(passed_list).toStrictEqual([1, 3, 2]);
 })

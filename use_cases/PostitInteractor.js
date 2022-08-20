@@ -1,9 +1,9 @@
 class PostitInteractor {
-    _presenter = null;
+    _use_case = null;
     _POST_OFFICE = null;
 
-    constructor(presenter, POST_OFFICE) {
-        this._presenter = presenter;
+    constructor(use_case, POST_OFFICE) {
+        this._use_case = use_case;
         this._POST_OFFICE = POST_OFFICE;
     }
 

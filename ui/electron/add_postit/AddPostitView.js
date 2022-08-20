@@ -1,20 +1,13 @@
 const {ipcMain} = require('electron');
 const path = require("path");
-const PostitPresenter = require("../PostitPresenter");
+const PostitView = require("../PostitView");
 
 let use_case;
 
-class AddPostitPresenter extends PostitPresenter{
+class AddPostitView extends PostitView{
     constructor(UseCase, ControllerFactory, InteractorFactory, POST_OFFICE) {
         super(UseCase, path.join(__dirname, 'AddPostitPreloader.js'), ControllerFactory, InteractorFactory, POST_OFFICE);
-        UseCase.presenter = this;
         use_case = UseCase;
-    }
-
-    on_submit(value) {
-        this._controller.add_postit(value);
-        this._POST_OFFICE.save();
-        this.hide();
     }
 
     //@ResponseBoundary
@@ -25,7 +18,8 @@ class AddPostitPresenter extends PostitPresenter{
 ipcMain.on('postit:submitted',(e, value) => {
     e.preventDefault();
     use_case.presenter.on_submit(value)
+    use_case.view.hide();
 });
 
 
-module.exports = AddPostitPresenter;
+module.exports = AddPostitView;
