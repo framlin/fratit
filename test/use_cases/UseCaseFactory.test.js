@@ -1,4 +1,4 @@
-const UseCaseFactory = require("../../use_cases/UseCaseFactory");
+const UseCaseFactory = require("../../factories/UseCaseFactory");
 
 class view_factory_stub {
     static create(win) {
@@ -37,6 +37,13 @@ it("takes a add_postit and calls it with it's name as an Argument", () => {
     let use_case = UseCaseFactory.create("add_postit");
     expect(use_case).toBe("add_postit42");
 });
+
+it("takes a show_top_postit and calls it with it's name as an Argument, if called with factories", () => {
+    UseCaseFactory.config(view_factory_stub, presenter_factory_stub, controller_factory_stub, interactor_factory_stub, post_office_stub)
+    let use_case = UseCaseFactory.create("show_top_postit");
+    expect(use_case).toBe("show_top_postit42");
+});
+
 
 it("throws a NoSuchUseCase Error, if a invalif use-case-name is passed", () =>{
     UseCaseFactory.config(view_factory_stub);

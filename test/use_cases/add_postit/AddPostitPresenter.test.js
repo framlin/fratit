@@ -1,15 +1,13 @@
 const AddPostitPresenter = require("../../../use_cases/add_postit/AddPostitPresenter");
 const SelectPostitPresenter = require("../../../use_cases/select_postit/SelectPostitPresenter");
 const {add} = require("nodemon/lib/rules");
+const post_office_stub = require("../stubs/post_office_stub");
+const view_stub = require("../stubs/view_stub");
+const controller_stub = require("../stubs/controller_stub");
 
-class controller_stub {
+class add_postit_controller_stub extends controller_stub{
     add_postit_called = false
     passed_value = -1;
-    run_use_case_called = false;
-
-    run_use_case() {
-        this.run_use_case_called = true;
-    }
 
     add_postit(value) {
         this.add_postit_called = true;
@@ -17,33 +15,13 @@ class controller_stub {
     }
 }
 
-let stubbed_controller = new controller_stub();
-
-class post_office_stub {
-    save_called = false;
-
-    save() {
-        this.save_called = true;
-    }
-}
-
-let stubbed_post_office = new post_office_stub()
+let stubbed_controller = new add_postit_controller_stub();
+let stubbed_post_office = new post_office_stub();
 let use_case_stub = {
     name: 'add_postit',
     presenter: null
 }
 
-class view_stub{
-    display_called = false;
-    arg_passed = null;
-    once (e, callback) {
-        callback();
-    }
-    display(elem) {
-        this.display_called = true;
-        this.arg_passed = elem;
-    }
-}
 let stubbed_view = new view_stub();
 
 let add_postit_presenter
@@ -74,5 +52,5 @@ test('run_use_case', () => {
 test('present', () => {
     add_postit_presenter.present(42);
     expect(stubbed_view.display_called).toBe(false)
-    expect(stubbed_view.arg_passed).toStrictEqual(null);
+    expect(stubbed_view.passed_display_value).toStrictEqual(null);
 })

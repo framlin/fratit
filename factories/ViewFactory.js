@@ -1,9 +1,9 @@
-const AddPostitView = require("./add_postit/AddPostitView");
-const TrayWindow = require("./tray/TrayWindow");
+const AddPostitView = require("../ui/electron/add_postit/AddPostitView");
 const path = require("path");
-const {Tray, app} = require("electron");
-const TRAY_MENU = require("./tray/TrayMenu");
-const SelectPostitView = require("./select_postit/SelectPostitView");
+const {Tray} = require("electron");
+const TRAY_MENU = require("../ui/electron/tray/TrayMenu");
+const SelectPostitView = require("../ui/electron/select_postit/SelectPostitView");
+const ShowTopPostitView = require("../ui/electron/show_top_postit/ShowTopPostitView");
 
 let tray = null;
 
@@ -29,23 +29,21 @@ const PostitViews = {
         }
     },
 
-    show_postit: (POST_OFFICE) => {
-        return () => {
-            let tray_window = new TrayWindow(POST_OFFICE);
-            tray_window.loadFile(path.join(__dirname, './tray/tray.html')).then(() => {
-                tray_window.fetch_postit();
-                tray_window.show();
-            });
+    show_top_postit: (controller, interactor, POST_OFFICE) => {
+        return(use_case) => {
+            let show_top_postit_view = new ShowTopPostitView(use_case, controller, interactor, POST_OFFICE);
+            show_top_postit_view.loadFile('ui/electron/show_top_postit/show_top_postit.html').then();
             // Open the DevTools.
             // add_postit_window.webContents.openDevTools();
-            return tray_window;
+            return show_top_postit_view;
         }
     },
+
     tray: (POST_OFFICE) => {
         return (UseCaseFactory) => {
 
             if (!tray) {
-                tray = new Tray(path.join(__dirname, './tray/tray.png'));
+                tray = new Tray(path.join(__dirname, '../ui/electron/tray/tray.png'));
                 // app.dock.hide();
                 const tray_menu = TRAY_MENU (UseCaseFactory)
                 tray.setToolTip('FRAmlins posTIT')

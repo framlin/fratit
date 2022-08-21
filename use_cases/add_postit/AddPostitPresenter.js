@@ -6,6 +6,10 @@ class AddPostitPresenter extends PostitPresenter{
         super(use_case, view, controller, post_office);
     }
 
+    on_view_ready_to_show() {
+        //must not do anything
+    }
+
     on_submit(value) {
         this._controller.add_postit(value);
         this._POST_OFFICE.save();

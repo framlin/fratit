@@ -11,14 +11,14 @@ class SelectPostitView extends PostitView{
 
     display(postits) {
         if (postits instanceof Array) {
-            this.webContents.send('postit_list', postits);
+            this.webContents.send('select_postit:display', postits);
         }
     }
 }
 
-ipcMain.on('postit:selected',(e, index) => {
+ipcMain.on('select_postit:select',(e, index) => {
     e.preventDefault();
-    use_case.presenter.on_select(index)
+    use_case.presenter.postit_select(index)
 });
 
 

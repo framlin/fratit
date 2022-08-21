@@ -1,6 +1,6 @@
 const {ipcRenderer} = require("electron");
 
-ipcRenderer.on('postit_list', (e, postits) => {
+ipcRenderer.on('select_postit:display', (e, postits) => {
     let postit_list = document.querySelector('#postit-list');
     while(postit_list.firstChild) {
         postit_list.removeChild(postit_list.firstChild);
@@ -13,7 +13,7 @@ ipcRenderer.on('postit_list', (e, postits) => {
         postit_div.addEventListener('click', (e) => {
             let selected_posted = e.target;
             let index = selected_posted.getAttribute('data-index');
-            ipcRenderer.send('postit:selected', index);
+            ipcRenderer.send('select_postit:select', index);
         });
         postit_list.prepend(postit_div);
     });

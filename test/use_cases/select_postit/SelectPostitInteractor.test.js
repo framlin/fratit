@@ -52,7 +52,7 @@ it('reacts to postit_selected, by moving the selected postit to the top', () => 
     }, {
         pile: new PILE()
     });
-    interactor.postit_selected(1);
+    interactor.postit_select(1);
     expect(take_called).toBe(true);
     expect(passed_list).toStrictEqual([1, 3, 2]);
 })

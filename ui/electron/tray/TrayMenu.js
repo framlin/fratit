@@ -3,8 +3,8 @@ const {Menu} = require("electron");
 function TRAY_MENU (UseCaseFactory) {
     return Menu.buildFromTemplate([
         {
-            label: 'show postit', click: () => {
-                UseCaseFactory.create('show_postit');
+            label: 'show top postit', click: () => {
+                UseCaseFactory.create('show_top_postit');
             }
         },
         {

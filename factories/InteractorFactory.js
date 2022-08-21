@@ -1,9 +1,11 @@
-const AddPostitInteractor = require("./add_postit/AddPostitInteractor");
-const SelectPostitInteractor = require("./select_postit/SelectPostitInteractor");
+const AddPostitInteractor = require("../use_cases/add_postit/AddPostitInteractor");
+const SelectPostitInteractor = require("../use_cases/select_postit/SelectPostitInteractor");
+const ShowTopPostitInteractor = require("../use_cases/show_top_postit/ShowTopPostitInteractor");
 
 const PostitInteractor = {
     add_postit: (use_case) => new AddPostitInteractor(use_case, InteractorFactory.POST_OFFICE),
     select_postit: (use_case) => new SelectPostitInteractor(use_case, InteractorFactory.POST_OFFICE),
+    show_top_postit: (use_case) => new ShowTopPostitInteractor(use_case, InteractorFactory.POST_OFFICE),
 }
 
 class InteractorFactory {

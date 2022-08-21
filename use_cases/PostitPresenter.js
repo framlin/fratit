@@ -11,6 +11,14 @@ class PostitPresenter {
         this._controller = controller;
         this._POST_OFFICE = post_office;
         this._use_case.presenter = this;
+
+        this._view.once('ready-to-show', () => {
+            this.on_view_ready_to_show();
+        });
+    }
+
+    on_view_ready_to_show() {
+        this.run_use_case();
     }
 
     run_use_case() {

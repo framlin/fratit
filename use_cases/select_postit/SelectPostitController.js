@@ -5,8 +5,8 @@ class SelectPostitController extends PostitController {
         super(interactor)
     }
 
-    postit_selected(index) {
-        this._interactor.postit_selected(index);
+    postit_select(index) {
+        this._interactor.postit_select(index);
     }
 }
 

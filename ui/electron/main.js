@@ -5,13 +5,13 @@ const PILE_STORAGE = require("../../storage/PileStorage");
 
 POST_OFFICE.storage = PILE_STORAGE;
 
-const InteractorFactory = require("../../use_cases/InteractorFactory");
-const ControllerFactory = require("../../use_cases/ControllerFactory");
-const ViewFactory = require("./ViewFactory");
-const UseCaseFactory = require("../../use_cases/UseCaseFactory");
+const InteractorFactory = require("../../factories/InteractorFactory");
+const ControllerFactory = require("../../factories/ControllerFactory");
+const ViewFactory = require("../../factories/ViewFactory");
+const UseCaseFactory = require("../../factories/UseCaseFactory");
 const path = require("path");
 const {readFile, writeFile} = require("fs/promises");
-const PresenterFactory = require("../../use_cases/PresenterFactory");
+const PresenterFactory = require("../../factories/PresenterFactory");
 
 const CONFIG_FILE_NAME = path.join(app.getPath("userData"), 'config.json');
 let FRATIT_CONFIG;

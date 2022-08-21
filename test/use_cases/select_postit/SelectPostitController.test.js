@@ -24,13 +24,14 @@ test("passing index to interactor", () => {
     let passed_index = 0;
 
     let controller = new SelectPostitController({
-        postit_selected: (index) => {
+        //interactor
+        postit_select: (index) => {
             interactor_postit_selected_called = true;
             passed_index = index
         }
     });
 
-    controller.postit_selected(42);
+    controller.postit_select(42);
     expect(interactor_postit_selected_called).toBe(true);
     expect(passed_index).toBe(42);
 })

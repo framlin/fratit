@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
     <link rel="stylesheet" href="../css/framlin.css">
-    <link rel="stylesheet" href="tray.css">
-    <title>fratit</title>
+    <link rel="stylesheet" href="show_top_postit.css">
+    <title>Show Top Postit</title>
 </head>
 <body>
-<div id="tray" class="vbox">
+<div id="top-postit" class="vbox">
     <div class="flex-1" id="postit-text">empty pile</div>
     <div id="footer" class="hbox "><div id="postit-expiration"></div><button class="align-right" id="postit-delete">delete</button></div>
-
 </div>
+
 </body>
 </html>

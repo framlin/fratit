@@ -1,5 +1,6 @@
-const AddPostitPresenter = require("./add_postit/AddPostitPresenter");
-const SelectPostitPresenter = require("./select_postit/SelectPostitPresenter");
+const AddPostitPresenter = require("../use_cases/add_postit/AddPostitPresenter");
+const SelectPostitPresenter = require("../use_cases/select_postit/SelectPostitPresenter");
+const ShowTopPostitPresenter = require("../use_cases/show_top_postit/ShowTopPostitPresenter");
 
 const PostitPresenters = {
     add_postit: (use_case, view, controller, post_office) => {
@@ -7,7 +8,10 @@ const PostitPresenters = {
     },
     select_postit: (use_case, view, controller, post_office) => {
         return new SelectPostitPresenter(use_case, view, controller, post_office);
-    }
+    },
+    show_top_postit: (use_case, view, controller, post_office) => {
+        return new ShowTopPostitPresenter(use_case, view, controller, post_office);
+    },
 
 }
 

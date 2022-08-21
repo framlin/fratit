@@ -14,25 +14,21 @@ function common_use_case_creation(use_case_name) {
 const UseCases = {
     add_postit: common_use_case_creation,
     select_postit: common_use_case_creation,
+    show_top_postit: common_use_case_creation,
 
-    show_postit: (use_case) => UseCaseFactory.ViewFactory.create(use_case)({
-        name: use_case
-    }),
-
-    flash_postit: (use_case) => {
+    flash_postit: () => {
         setInterval(() => {
             UseCaseFactory.create('show_postit');
         }, 60000 * 60); //1h
     },
 
-    quit_postit: (use_case) => {
+    quit_postit: () => {
         app.quit();
     },
 }
 
 
-class NoSuchUseCase_ extends Error {
-};
+class NoSuchUseCase_ extends Error {}
 
 class UseCaseFactory {
 

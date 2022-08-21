@@ -1,6 +1,4 @@
 const {BrowserWindow} = require('electron');
-const path = require("path");
-
 class PostitView extends BrowserWindow {
     _controller = null;
     _interactor = null;

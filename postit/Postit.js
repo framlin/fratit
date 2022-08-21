@@ -1,7 +1,7 @@
 class Postit {
-    #text;
-    #expiration;
-    #creationDate;
+    #text = "";
+    #expiration = null;
+    #creationDate = null;
 
     get expiration() {
         return this.#expiration
@@ -19,10 +19,16 @@ class Postit {
         this.#text = text;
     }
 
-    constructor() {
+    constructor(text, expiration) {
         this.#creationDate = Date.now();
-        this.#text = "";
-        this.#expiration = null;
+
+        if (typeof text !== 'undefined') {
+            this.#text = text;
+        }
+
+        if (typeof expiration !== 'undefined') {
+            this.#expiration = expiration;
+        }
     }
 
     static from_JSON(json_string) {
