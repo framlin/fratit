@@ -6,12 +6,22 @@ const SelectPostitView = require("../ui/electron/select_postit/SelectPostitView"
 const ShowTopPostitView = require("../ui/electron/show_top_postit/ShowTopPostitView");
 
 let tray = null;
+let show_top_postit_view;
+let add_postit_view;
+let select_postit_view;
+
+function is_view_opened(viev) {
+    return !viev?.isDestroyed() && viev?.isFocusable();
+}
 
 const PostitViews = {
 
     add_postit: (controller, interactor, POST_OFFICE) => {
         return (use_case) => {
-            let add_postit_view = new AddPostitView(use_case, controller, interactor, POST_OFFICE);
+            if (is_view_opened(add_postit_view)) {
+                add_postit_view.close();
+            }
+            add_postit_view = new AddPostitView(use_case, controller, interactor, POST_OFFICE);
             add_postit_view.loadFile('ui/electron/add_postit/add_postit.html').then();
             // Open the DevTools.
             // add_postit_window.webContents.openDevTools();
@@ -21,7 +31,10 @@ const PostitViews = {
 
     select_postit: (controller, interactor, POST_OFFICE) => {
         return (use_case) => {
-            let select_postit_view = new SelectPostitView(use_case, controller, interactor, POST_OFFICE);
+            if (is_view_opened(select_postit_view)) {
+                select_postit_view.close();
+            }
+            select_postit_view = new SelectPostitView(use_case, controller, interactor, POST_OFFICE);
             select_postit_view.loadFile('ui/electron/select_postit/select_postit.html').then();
             // Open the DevTools.
             // add_postit_window.webContents.openDevTools();
@@ -31,7 +44,10 @@ const PostitViews = {
 
     show_top_postit: (controller, interactor, POST_OFFICE) => {
         return(use_case) => {
-            let show_top_postit_view = new ShowTopPostitView(use_case, controller, interactor, POST_OFFICE);
+            if (is_view_opened(show_top_postit_view)) {
+                show_top_postit_view.close();
+            }
+            show_top_postit_view = new ShowTopPostitView(use_case, controller, interactor, POST_OFFICE);
             show_top_postit_view.loadFile('ui/electron/show_top_postit/show_top_postit.html').then();
             // Open the DevTools.
             // add_postit_window.webContents.openDevTools();

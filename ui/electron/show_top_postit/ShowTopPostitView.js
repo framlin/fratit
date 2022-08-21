@@ -13,7 +13,7 @@ class ShowTopPostitView extends PostitView{
         this.webContents.send('show_top_postit:display', postit);
     }
     on_close() {
-        this.hide();
+        this.close();
     }
 }
 

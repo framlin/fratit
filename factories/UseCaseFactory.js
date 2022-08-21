@@ -18,7 +18,7 @@ const UseCases = {
 
     flash_postit: () => {
         setInterval(() => {
-            UseCaseFactory.create('show_postit');
+            UseCaseFactory.create('show_top_postit');
         }, 60000 * 60); //1h
     },
 
