@@ -73,3 +73,37 @@ it('does no re-set the last-update to 0, when the postit gets serialized and de-
     expect(after).toBeGreaterThan(0);
     expect(before).toBe(after);
 });
+
+test('that the postit is the same as itself', () => {
+    let postit = new Postit();
+    expect(postit.is_same_as(postit)).toBe(true);
+});
+
+test('that one postit is not the same as another postit, that is created a little bit later', () => {
+    let postit_1 = new Postit();
+    setTimeout(() => {
+        let postit_2 = new Postit();
+        expect(postit_1.is_same_as(postit_2)).toBe(false);
+    },2);
+});
+
+
+test('that a postit keeps the same after serialization and de-serialization', () => {
+    let postit_1 = new Postit();
+    let json = JSON.stringify(postit_1);
+    let postit_2 = Postit.from_JSON(json);
+
+    expect(postit_1.is_same_as(postit_2)).toBe(true);
+});
+
+it('keeps the same, even if it is serialized and deserialized twice and properties are changed between', () => {
+    let postit_1 = new Postit();
+    let json_1 = JSON.stringify(postit_1);
+    let postit_2 = Postit.from_JSON(json_1);
+    postit_2.text = 'different';
+    let json_2 = JSON.stringify(postit_2);
+    let postit_3 = Postit.from_JSON(json_2);
+
+    expect(postit_1.is_same_as(postit_3)).toBe(true);
+});
+

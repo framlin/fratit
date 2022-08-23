@@ -4,6 +4,9 @@ class Postit {
     #creationDate = null;
     #last_update = 0;
 
+    get id () {
+        return this.#creationDate;
+    }
     get last_update() {
         return this.#last_update;
     }
@@ -26,6 +29,10 @@ class Postit {
         this.#last_update = Date.now();
     }
 
+    is_same_as(postit_to_compare_with) {
+        return this.id === postit_to_compare_with.id;
+    }
+
     constructor(text, expiration, last_update) {
         this.#creationDate = Date.now();
 
@@ -46,9 +53,7 @@ class Postit {
         let obj = JSON.parse(json_string);
         let result = new Postit(obj.text, new Date(obj.expiration), obj.last_update);
 
-        // result.#text = obj.text;
         result.#creationDate = obj.creationDate;
-        // result.#expiration = new Date(obj.expiration);
         return result;
     }
 
