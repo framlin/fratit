@@ -4,11 +4,13 @@ const {Tray} = require("electron");
 const TRAY_MENU = require("../ui/electron/tray/TrayMenu");
 const SelectPostitView = require("../ui/electron/select_postit/SelectPostitView");
 const ShowTopPostitView = require("../ui/electron/show_top_postit/ShowTopPostitView");
+const DispatchPileView = require("../ui/electron/dispatch_pile/DispatchPileView");
 
 let tray = null;
 let show_top_postit_view;
 let add_postit_view;
 let select_postit_view;
+let dispatch_pile_view;
 
 function is_view_opened(viev) {
     return !viev?.isDestroyed() && viev?.isFocusable();
@@ -52,6 +54,19 @@ const PostitViews = {
             // Open the DevTools.
             // add_postit_window.webContents.openDevTools();
             return show_top_postit_view;
+        }
+    },
+
+    dispatch_pile: (controller, interactor, POST_OFFICE) => {
+        return(use_case) => {
+            if (is_view_opened(dispatch_pile_view)) {
+                dispatch_pile_view.close();
+            }
+            dispatch_pile_view = new DispatchPileView(use_case, controller, interactor, POST_OFFICE);
+            dispatch_pile_view.loadFile('ui/electron/dispatch_pile/dispatch_pile.html').then();
+            // Open the DevTools.
+            // add_postit_window.webContents.openDevTools();
+            return dispatch_pile_view;
         }
     },
 

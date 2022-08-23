@@ -15,7 +15,6 @@ function create_123_pile() {
 
 beforeEach(() => {
     pile = new Pile();
-    pile.storage = {save: () => {}, load: ()=> {}};
 });
 
 test('creation', () => {
@@ -122,3 +121,42 @@ test('that a de-serialized properties are correct', () => {
     expect(de_serialized.all).toStrictEqual(pile.all);
 });
 
+it('sets the last-updated-date, when anything has changed on the pile', () => {
+    function check_last_update(fun) {
+        let pile = new Pile([1,2,3]);
+        let before = pile.last_update;
+        fun(pile);
+        let after = pile.last_update;
+        expect(before).toBeLessThan(after);
+    }
+
+    check_last_update((pile) => {
+        pile.push(1);
+    })
+    check_last_update((pile) => {
+        pile.pop();
+    })
+    check_last_update((pile) => {
+        pile.put(1,4);
+    })
+    check_last_update((pile) => {
+        pile.take(1);
+    })
+    check_last_update((pile) => {
+        pile.clear();
+    })
+
+
+})
+
+it('does no re-set the last-update to 0, when it gets serialized and de-serialized', () => {
+    let pile = new Pile([1,2,3]);
+    pile.push(4);
+    let before = pile.last_update;
+    let json = JSON.stringify(pile);
+    let de_serialized = Pile.from_JSON(json);
+    let after = de_serialized.last_update;
+    expect(before).toBeGreaterThan(0);
+    expect(after).toBeGreaterThan(0);
+    expect(before).toBe(after);
+});

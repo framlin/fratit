@@ -18,6 +18,11 @@ function TRAY_MENU (UseCaseFactory) {
             }
         },
         {
+            label: 'dispatch pile', click: () => {
+                UseCaseFactory.create('dispatch_pile');
+            }
+        },
+        {
             label: 'quit postit', click: () => {
                 UseCaseFactory.create('quit_postit');
             }

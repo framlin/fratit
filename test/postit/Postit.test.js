@@ -1,4 +1,5 @@
 const Postit = require("../../postit/Postit");
+const Pile = require("../../postit/Pile");
 
 let postit;
 
@@ -41,4 +42,34 @@ test('that a de-serialized properties are correct', () => {
     expect(de_serialized.expiration).toStrictEqual(date);
     expect(de_serialized.text).toBe("text");
     expect(de_serialized).toStrictEqual(postit);
+});
+
+it('sets the last-update-date, when anything has changed on the postit', () => {
+    function check_last_update(fun) {
+        let posit = new Postit('hallo', new Date(2022, 7, 19));
+        let before = posit.last_update;
+        fun(posit);
+        let after = posit.last_update;
+        expect(before).toBeLessThan(after);
+    }
+
+    check_last_update((postit) => {
+        postit.text = 'bla';
+    })
+
+    check_last_update((postit) => {
+        postit.expiration = new Date(2022,7,7);
+    })
+});
+
+it('does no re-set the last-update to 0, when the postit gets serialized and de-serialized', () => {
+    let posit = new Postit('hallo', new Date(2022, 7, 19));
+    postit.text = 'bla';
+    let before = postit.last_update;
+    let json = JSON.stringify(postit);
+    let de_serialized = Postit.from_JSON(json);
+    let after = de_serialized.last_update;
+    expect(before).toBeGreaterThan(0);
+    expect(after).toBeGreaterThan(0);
+    expect(before).toBe(after);
 });

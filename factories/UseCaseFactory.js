@@ -15,6 +15,7 @@ const UseCases = {
     add_postit: common_use_case_creation,
     select_postit: common_use_case_creation,
     show_top_postit: common_use_case_creation,
+    dispatch_pile: common_use_case_creation,
 
     flash_postit: () => {
         setInterval(() => {
