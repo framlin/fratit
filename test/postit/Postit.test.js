@@ -75,7 +75,6 @@ it('does no re-set the last-update to 0, when the postit gets serialized and de-
 });
 
 test('that the postit is the same as itself', () => {
-    let postit = new Postit();
     expect(postit.is_same_as(postit)).toBe(true);
 });
 
@@ -86,7 +85,6 @@ test('that one postit is not the same as another postit, that is created a littl
         expect(postit_1.is_same_as(postit_2)).toBe(false);
     },2);
 });
-
 
 test('that a postit keeps the same after serialization and de-serialization', () => {
     let postit_1 = new Postit();
@@ -107,3 +105,24 @@ it('keeps the same, even if it is serialized and deserialized twice and properti
     expect(postit_1.is_same_as(postit_3)).toBe(true);
 });
 
+test('that a postit is equal with itself', () => {
+    expect(postit.is_equal_with(postit)).toBe(true);
+});
+
+test("that 2 postits aren't equal, if both are 'empty' postits", () => {
+    let postit_1 = new Postit();
+    setTimeout(() => {
+        let postit_2 = new Postit();
+        expect(postit_1.is_equal_with(postit_2)).toBe(false);
+    }, 2);
+});
+
+test('that 2 postits are not equal, even if they have the same properties', () => {
+    let date = new Date('2022,1,1');
+    let text = "test";
+    let postit_1 = new Postit(text, date);
+    setTimeout(() => {
+        let postit_2 = new Postit(text, date);
+        expect(postit_1.is_equal_with(postit_2)).toBe(false);
+    }, 2);
+});

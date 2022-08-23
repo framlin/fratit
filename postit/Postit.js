@@ -33,6 +33,15 @@ class Postit {
         return this.id === postit_to_compare_with.id;
     }
 
+    is_equal_with(postit_to_compare_with) {
+        let same_expiration = (this.expiration === postit_to_compare_with.expiration) ||
+            (this.expiration.getTime() === postit_to_compare_with.expiration.getTime());
+
+        return this.is_same_as(postit_to_compare_with) &&
+            (this.text === postit_to_compare_with.text) && same_expiration;
+
+    }
+
     constructor(text, expiration, last_update) {
         this.#creationDate = Date.now();
 

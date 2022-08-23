@@ -18,10 +18,15 @@ class pile_stub{
     }
 }
 
-class postit_stub{
+class postit_stub {
     last_update = 0;
+    id = 0;
     get last_update(){
         return this.last_update;
+    }
+
+    get id() {
+        return this.id;
     }
 }
 
@@ -40,4 +45,5 @@ it ('returns an empty pile, merging two empty piles', () => {
 
 it('returns a pile with the postit of pile_1, if pile_1 has 1 postit and pile_2 is empty', () => {
     expect_merge([1],[],[1]);
-})
+});
+
