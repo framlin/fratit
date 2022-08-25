@@ -60,7 +60,8 @@ class Postit {
 
     static from_JSON(json_string) {
         let obj = JSON.parse(json_string);
-        let result = new Postit(obj.text, new Date(obj.expiration), obj.last_update);
+        let date = obj.expiration ? new Date(obj.expiration) : null;
+        let result = new Postit(obj.text, date, obj.last_update);
 
         result.#creationDate = obj.creationDate;
         return result;

@@ -78,12 +78,11 @@ test('that the postit is the same as itself', () => {
     expect(postit.is_same_as(postit)).toBe(true);
 });
 
-test('that one postit is not the same as another postit, that is created a little bit later', () => {
+test('that one postit is not the same as another postit, that is created a little bit later', async () => {
     let postit_1 = new Postit();
-    setTimeout(() => {
-        let postit_2 = new Postit();
-        expect(postit_1.is_same_as(postit_2)).toBe(false);
-    },2);
+    await new Promise((r) => setTimeout(r, 2));
+    let postit_2 = new Postit();
+    expect(postit_1.is_same_as(postit_2)).toBe(false);
 });
 
 test('that a postit keeps the same after serialization and de-serialization', () => {
@@ -93,6 +92,15 @@ test('that a postit keeps the same after serialization and de-serialization', ()
 
     expect(postit_1.is_same_as(postit_2)).toBe(true);
 });
+
+test('that the expiration of a de-serialized postit without expiration is null', () => {
+    let postit_1 = new Postit();
+    let json = JSON.stringify(postit_1);
+    let postit_2 = Postit.from_JSON(json);
+
+    expect(postit.expiration).toBeNull();
+
+})
 
 it('keeps the same, even if it is serialized and deserialized twice and properties are changed between', () => {
     let postit_1 = new Postit();
@@ -109,20 +117,18 @@ test('that a postit is equal with itself', () => {
     expect(postit.is_equal_with(postit)).toBe(true);
 });
 
-test("that 2 postits aren't equal, if both are 'empty' postits", () => {
+test("that 2 postits aren't equal, if both are 'empty' postits", async () => {
     let postit_1 = new Postit();
-    setTimeout(() => {
-        let postit_2 = new Postit();
-        expect(postit_1.is_equal_with(postit_2)).toBe(false);
-    }, 2);
+    await new Promise((r) => setTimeout(r, 2));
+    let postit_2 = new Postit();
+    expect(postit_1.is_equal_with(postit_2)).toBe(false);
 });
 
-test('that 2 postits are not equal, even if they have the same properties', () => {
+test('that 2 postits are not equal, even if they have the same properties', async () => {
     let date = new Date('2022,1,1');
     let text = "test";
     let postit_1 = new Postit(text, date);
-    setTimeout(() => {
-        let postit_2 = new Postit(text, date);
-        expect(postit_1.is_equal_with(postit_2)).toBe(false);
-    }, 2);
+    await new Promise((r) => setTimeout(r, 2));
+    let postit_2 = new Postit(text, date);
+    expect(postit_1.is_equal_with(postit_2)).toBe(false);
 });
