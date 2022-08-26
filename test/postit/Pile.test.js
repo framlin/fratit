@@ -179,3 +179,27 @@ it('moves all postit into the basket when clearing the pile', () => {
     expect(pile.basket.length).toBe(3);
     expect(pile.basket[0]).toBe(1);
 });
+
+it('finds the first equal postit in its items, if there is one', () => {
+    let postit = new Postit("1");
+    let pile = new Pile([postit]);
+    let found = pile.find_equal(postit);
+    expect(postit.is_equal_with(found)).toBe(true);
+})
+
+it('finds the first same postit in its items, if there is one', () => {
+    let postit = new Postit("1");
+    let pile = new Pile([postit]);
+    postit.text = "2"
+    let found = pile.find_same(postit);
+    expect(postit.is_same_as(found)).toBe(true);
+});
+
+it('returns undefined, if it does not find the same item, because there is no', async () => {
+    let postit = new Postit("1");
+    let pile = new Pile([postit]);
+    await new Promise((r) => setTimeout(r, 2));
+    let postit_2 = new Postit("2");
+    let found = pile.find_same(postit_2);
+    expect(found).toBeUndefined();
+});

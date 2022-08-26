@@ -34,18 +34,6 @@ class Pile {
         return this.#basket;
     }
 
-    static from_JSON(json_string) {
-        let obj = JSON.parse(json_string);
-        let items = JSON.parse(obj.items);
-        let postits = [];
-        for (let item of items) {
-            let json_item = JSON.stringify(item);
-            let postit = Postit.from_JSON(json_item);
-            postits.push(postit);
-        }
-        return new Pile(postits, obj.last_update);
-    }
-
     push(item) {
         this.#items.push(item);
         this.#last_update = Date.now();
@@ -76,6 +64,26 @@ class Pile {
         }
         this.#items = [];
         this.#last_update = Date.now();
+    }
+
+    find_same(pattern) {
+        return this.#items.find((item) => item.is_same_as(pattern));
+    }
+
+    find_equal(pattern) {
+        return this.#items.find((item) => item.is_equal_with(pattern));
+    }
+
+    static from_JSON(json_string) {
+        let obj = JSON.parse(json_string);
+        let items = JSON.parse(obj.items);
+        let postits = [];
+        for (let item of items) {
+            let json_item = JSON.stringify(item);
+            let postit = Postit.from_JSON(json_item);
+            postits.push(postit);
+        }
+        return new Pile(postits, obj.last_update);
     }
 
     load_from_JSON(json_string) {
