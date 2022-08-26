@@ -160,3 +160,22 @@ it('does no re-set the last-update to 0, when it gets serialized and de-serializ
     expect(after).toBeGreaterThan(0);
     expect(before).toBe(after);
 });
+
+it('moves a popped postit into the basket', () => {
+    let pile = create_123_pile();
+    let popped_item = pile.pop();
+    expect(pile.basket[0]).toBe(popped_item);
+});
+
+it('moves a taken postit into the basket', () => {
+    let pile = create_123_pile();
+    let taken_item = pile.take(1);
+    expect(pile.basket[0]).toBe(taken_item);
+});
+
+it('moves all postit into the basket when clearing the pile', () => {
+    let pile = create_123_pile();
+    pile.clear();
+    expect(pile.basket.length).toBe(3);
+    expect(pile.basket[0]).toBe(1);
+});

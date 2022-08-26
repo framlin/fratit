@@ -8,6 +8,10 @@ function find_equal_postit(postits, postit) {
     return postits.find((pattern) => pattern.is_equal_with(postit))
 }
 
+function is_deleted_from(pile, postit) {
+    let pile_basket = pile.basket;
+    return find_same_postit(pile.basket, postit);
+}
 
 class PileMerger {
     merge(pile_1, pile_2) {
@@ -21,6 +25,15 @@ class PileMerger {
             for (let pile_1_postit of pile_1_items) {
                 result_items.push(pile_1_postit);
             }
+            if ((pile_2_items.length === 0) && (pile_2.basket.length > 0)) {
+                for (let deleted_postit of pile_2.basket) {
+                    let outstanding_postit = find_same_postit(result_items, deleted_postit);
+                    if (outstanding_postit) {
+                        let index = result_items.indexOf(outstanding_postit);
+                        result_items.splice(index, 1);
+                    }
+                }
+            }
             for (let pile_2_postit of pile_2_items) {
                 let same_postit_in_result = find_same_postit(result_items, pile_2_postit);
                 if (same_postit_in_result){
@@ -33,7 +46,10 @@ class PileMerger {
                             result_items[index] = pile_2_postit
                         }
                     }
-                } else {
+                } else if (is_deleted_from(pile_1, pile_2_postit)){
+                    //
+                }
+                else {
                     result_items.push(pile_2_postit);
                 }
             }
