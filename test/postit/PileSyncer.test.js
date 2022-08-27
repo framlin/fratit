@@ -1,36 +1,7 @@
-/**
- _        _        _
- 1        _        1
- _        1        1
- 1        1        1
- 1,2        _        1,2
- _        1,2        1,2
- 1,2        1        1,2
- 1        1,2        1,2
- 1,2        1,2        1,2
- 1,2        3        1,2,3
- 1        2,3        1,2,3
- 1,2        2,3        1,2,3
- 1*        1        1*
- 1        1*        1*
- 1*        1,2        1*,2
- 1,2        1*        1*,2
- 1,2        1*,2    1*,2
- 1*,2    1,2        1*,2
- 1*,2    1        1*,2
- 1        1*,2    1*,2
- 1*,2    1,2*    1*,2*
- 1*,2*    1,2        1*,2*
- 1,2        1*,2*    1*,2*
- 1,2*    2,3        1,2*,3
- 1,2        2*,3    1,2*,3
- **/
-
-const PileMerger = require("../../postit/PileMerger");
+const PileMerger = require("../../postit/PileSyncer");
 const Postit = require("../../postit/Postit");
 const Pile = require("../../postit/Pile");
-let pile_merger;
-
+let pile_syncer;
 
 function expect_to_be_the_same_but_different(postit_1, postit_2) {
     let same = postit_1.is_same_as(postit_2);
@@ -42,27 +13,29 @@ function expect_to_be_equal(postit_1, postit_2) {
     expect(postit_1.is_same_as(postit_2)).toBe(true);
 }
 
-
-
 function clone_postit(postit) {
     let json = JSON.stringify(postit);
     return Postit.from_JSON(json);
 }
 
-async function test_pile_merging(pile_1_string, pile_2_string, expected_items_string) {
-    let result = [];
+async function test_pile_syncing(pile_1_string, pile_2_string, expected_items_string) {
     let {pile_1, pile_2} = await create_piles(pile_1_string, pile_2_string);
-    return pile_merger.merge(pile_1, pile_2);
+    let synced_pile = pile_syncer.sync(pile_1, pile_2);
+    let postits = synced_pile.all;
+    let expected_texts = expected_items_string === "" ? [] : expected_items_string.split(',');
+    expect(postits.length).toBe(expected_texts.length);
+    for (let i = 0; i < expected_texts.length; i++) {
+        expect(postits[i].text).toBe(expected_texts[i]);
+    }
 }
 
 async function create_piles(pile_1_string, pile_2_string) {
 
     async function create_new_postit(text) {
         let result = new Postit(text);
-        await delay(1);
+        await delay();
         return result;
     }
-
 
     function find_postit_and_modifier_by_text(postits, text) {
         let search_modifier = extract_modifier(text);
@@ -86,12 +59,6 @@ async function create_piles(pile_1_string, pile_2_string) {
         return result;
     }
 
-
-
-
-    let pile_1 = new Pile();
-    let pile_2 = new Pile();
-
     function delay(ms=2) {
         return new Promise((r) => setTimeout(r, ms));
     }
@@ -100,9 +67,9 @@ async function create_piles(pile_1_string, pile_2_string) {
         let cloned_postit = clone_postit(postit);
         let postit_text = postit.text;
         let modifier = extract_modifier(postit_text);
-        cloned_postit.text = item_string;
+        if (cloned_postit.text !== item_string) cloned_postit.text = item_string;
         if (modifier === '*') {
-            await delay(1);
+            await delay();
             //we need an incremented last_uppdate;
             postit.text = postit_text;
         }
@@ -130,6 +97,9 @@ async function create_piles(pile_1_string, pile_2_string) {
         }
     }
 
+    let pile_1 = new Pile();
+    let pile_2 = new Pile();
+
     if (pile_1_string !== '_') {
         await fill_pile(pile_1, pile_1_string, pile_2);
     }
@@ -141,9 +111,7 @@ async function create_piles(pile_1_string, pile_2_string) {
     return {pile_1, pile_2}
 }
 
-
-describe('test_pile_merging-function', () => {
-
+describe('test_pile_syncing-function', () => {
     describe('create_piles', () => {
         test('_ / _ => [], []', async () => {
             let {pile_1, pile_2} = await create_piles('_', '_');
@@ -203,10 +171,15 @@ describe('test_pile_merging-function', () => {
             expect(pile_1.all.length).toBe(2);
             expect(pile_2.all.length).toBe(1);
 
-            expect(pile_1.all[0].text).toBe('1');
-            expect(pile_1.all[1].text).toBe('2');
+            let postit_1 = pile_1.all[0];
+            expect(postit_1.text).toBe('1');
+            let postit_2 = pile_1.all[1];
+            expect(postit_2.text).toBe('2');
 
-            expect(pile_2.all[0].text).toBe('1');
+            let postit_3 = pile_2.all[0];
+            expect(postit_3.text).toBe('1');
+
+            expect(postit_1.is_equal_with(postit_3)).toBe(true);
         });
 
         test('1 / 1,2 => [1], [1,2]', async () => {
@@ -283,13 +256,6 @@ describe('test_pile_merging-function', () => {
             expect_to_be_the_same_but_different(postit_2, postit_4);
         });
 
-        test('1,2    1*,2*    1*,2*', async () => {
-            let merged_pile = await test_pile_merging('1,2', '1*,2*')
-            expect(merged_pile.all.length).toBe(2);
-            expect(merged_pile.all[0].text).toBe('1*');
-            expect(merged_pile.all[1].text).toBe('2*');
-        });
-
         test('1,2 / 2,1 => [1,2],[2,1]', async () => {
             let {pile_1, pile_2} = await create_piles('1,2', '2,1');
             expect(pile_1.all.length).toBe(2);
@@ -346,7 +312,6 @@ describe('test_pile_merging-function', () => {
         });
 
     });
-
     describe('create_piles acceptance', () => {
 
         test('1,2,3,4*,5,6*,7-,8,9       1*,2-,3-,4,5,6,7-,8,9*', async () => {
@@ -410,213 +375,77 @@ describe('test_pile_merging-function', () => {
 });
 
 beforeEach(() => {
-    pile_merger = new PileMerger();
+    pile_syncer = new PileMerger();
 });
 
-describe.skip('changed postits', () => {
-
-
-    test('1	    _	    1', async () => {
-        let merged_pile = await test_pile_merging('1', '_')
-        expect(merged_pile.all.length).toBe(1);
-        expect(merged_pile.all[0].text).toBe('1');
+describe('simple cases and untouched postits', () => {
+    test('_ / _ => []', async () => {
+        await test_pile_syncing('_', '_', '');
     });
 
-    test('_	    1	    1', async () => {
-        let merged_pile = await test_pile_merging('_', '1')
-        expect(merged_pile.all.length).toBe(1);
-        expect(merged_pile.all[0].text).toBe('1');
+    test('1 / _ => [1]', async () => {
+        await test_pile_syncing('1', '_', '1');
     });
 
-    test('1	    1	    1', async () => {
-        let merged_pile = await test_pile_merging('1', '1')
-        expect(merged_pile.all.length).toBe(1);
-        expect(merged_pile.all[0].text).toBe('1');
-    })
-
-    test('1,2	    _	    1,2', async () => {
-        let merged_pile = await test_pile_merging('1,2', '_')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
+    test('_ / 1 => [1]', async () => {
+        await test_pile_syncing('_', '1', '1');
     });
 
-    test('_	    1,2	    1,2', async () => {
-        let merged_pile = await test_pile_merging('_', '1,2')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
+    test('1 / 1 => [1]', async () => {
+        await test_pile_syncing('1', '1', '1');
     });
 
-    test('1,2	    1	    1,2', async () => {
-        let merged_pile = await test_pile_merging('1,2', '1')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
+    test('1 / 1,2 => [1,2]', async () => {
+        await test_pile_syncing('1', '1,2', '1,2');
     });
 
-    test('1	    1,2	    1,2', async () => {
-        let merged_pile = await test_pile_merging('1', '1,2')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
+    test('1,2 / 1 => 1,2', async () => {
+        await test_pile_syncing('1,2', '1', '1,2');
     });
 
-    test('1,2	    1,2	    1,2', async () => {
-        let merged_pile = await test_pile_merging('1,2', '1,2')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
+    test('1,2 / 3 => 1,2,3', async () => {
+        await test_pile_syncing('1,2', '3', '1,2,3');
     });
 
-    test('1,2    3    1,2,3', async () => {
-        let merged_pile = await test_pile_merging('1,2', '3')
-        expect(merged_pile.all.length).toBe(3);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
-        expect(merged_pile.all[2].text).toBe('3');
+    test('1 / 2,3 => 2,3,1', async () => {
+        await test_pile_syncing('1', '2,3', '2,3,1');
+    });
+    test('1,3 / 2 => 1,3,2', async () => {
+        await test_pile_syncing('1,3', '2', '1,3,2');
     });
 
-    test('1    2,3    1,2,3', async () => {
-        let merged_pile = await test_pile_merging('1', '2,3')
-        expect(merged_pile.all.length).toBe(3);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
-        expect(merged_pile.all[2].text).toBe('3');
+});
+
+describe('deleted postits', () => {
+    test('1,2-,3 / 2 => 1,3', async () => {
+        await test_pile_syncing('1,2-,3', '2', '1,3');
     });
 
-    test('1,2    2,3    1,2,3', async () => {
-        let merged_pile = await test_pile_merging('1,2', '2,3')
-        expect(merged_pile.all.length).toBe(3);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
-        expect(merged_pile.all[2].text).toBe('3');
+    test('1,2,3 / 2- => 1,3', async () => {
+        await test_pile_syncing('1,2,3', '2-', '1,3');
+    });
+});
+
+describe('changed postits', () => {
+    test('1 / 1* => 1*', async () => {
+        await test_pile_syncing('1', '1*', '1*');
     });
 
-    test('1*    1    1*', async () => {
-        let merged_pile = await test_pile_merging('1*', '1')
-        expect(merged_pile.all.length).toBe(1);
-        expect(merged_pile.all[0].text).toBe('1*');
+    test('1* / 1 => 1*', async () => {
+        await test_pile_syncing('1*', '1', '1*');
     });
 
-    test('1    1*    1*', async () => {
-        let merged_pile = await test_pile_merging('1', '1*')
-        expect(merged_pile.all.length).toBe(1);
-        expect(merged_pile.all[0].text).toBe('1*');
+    test('1,2 / 1,2* => 1,2*', async () => {
+        await test_pile_syncing('1,2', '1,2*', '1,2*');
     });
 
-    test('1*    1,2    1*,2', async () => {
-        let merged_pile = await test_pile_merging('1*', '1,2')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1*');
-        expect(merged_pile.all[1].text).toBe('2');
+    test('1,2 / 2* => 1,2*', async () => {
+        await test_pile_syncing('1,2', '2*', '1,2*');
     });
+});
 
-    test('1,2    1*    1*,2', async () => {
-        let merged_pile = await test_pile_merging('1,2', '1*')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1*');
-        expect(merged_pile.all[1].text).toBe('2');
+describe('sync acceptance', () => {
+    test('1,2*,3,4,6,7*,8,9 / 1,2,3,4*,5,6-,7,9    1,2*,3,4*,5,7*,8,9', async () => {
+        await test_pile_syncing('1,2*,3,4,6,7*,8,9', '1,2,3,4*,5,6-,7,9', '1,2*,3,7*,8,9,4*,5');
     });
-
-    test('1,2    1*,2    1*,2', async () => {
-        let merged_pile = await test_pile_merging('1,2', '1*,2')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1*');
-        expect(merged_pile.all[1].text).toBe('2');
-    });
-
-    test('1*,2    1,2    1*,2', async () => {
-        let merged_pile = await test_pile_merging('1*,2', '1,2')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1*');
-        expect(merged_pile.all[1].text).toBe('2');
-    });
-
-    test('1*,2    1    1*,2', async () => {
-        let merged_pile = await test_pile_merging('1*,2', '1')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1*');
-        expect(merged_pile.all[1].text).toBe('2');
-    });
-
-    test('1    1*,2    1*,2', async () => {
-        let merged_pile = await test_pile_merging('1', '1*,2')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1*');
-        expect(merged_pile.all[1].text).toBe('2');
-    });
-
-    test('1*,2    1,2*    1*,2*', async () => {
-        let merged_pile = await test_pile_merging('1*,2', '1,2*')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1*');
-        expect(merged_pile.all[1].text).toBe('2*');
-    });
-
-    test('1*,2*    1,2    1*,2*', async () => {
-        let merged_pile = await test_pile_merging('1*,2*', '1,2')
-        expect(merged_pile.all.length).toBe(2);
-        expect(merged_pile.all[0].text).toBe('1*');
-        expect(merged_pile.all[1].text).toBe('2*');
-    });
-
-    test('1,2*    2,3    1,2*,3', async () => {
-        let merged_pile = await test_pile_merging('1,2*', '2,3')
-        expect(merged_pile.all.length).toBe(3);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2*');
-        expect(merged_pile.all[2].text).toBe('3');
-    });
-
-    test('1,2    2*,3    1,2*,3', async () => {
-        let merged_pile = await test_pile_merging('1,2', '2*,3')
-        expect(merged_pile.all.length).toBe(3);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2*');
-        expect(merged_pile.all[2].text).toBe('3');
-    });
-
-    test('1,2,3     1,3,2    1,2,3', async () => {
-        let merged_pile = await test_pile_merging('1,2,3', '1,3,2')
-        expect(merged_pile.all.length).toBe(3);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
-        expect(merged_pile.all[2].text).toBe('3');
-    });
-
-})
-describe.skip('deleted postits', () => {
-    test('_        1-            _', async () => {
-        let merged_pile = await test_pile_merging('_', '1-');
-        expect(merged_pile.all.length).toBe(0);
-    });
-
-    test('1     1-      _', async () => {
-        let merged_pile = await test_pile_merging('1', '1-');
-        expect(merged_pile.all.length).toBe(0);
-    });
-
-    test.skip('1,2*,3,4,6,7*,8,9    1,2,3,4*,5,6,7,9    1,2*,3,4*,6,7*,9', async () => {
-        let merged_pile = await test_pile_merging('1,2*,3,4,5-,6,7*,8,9', '1,2,3,4*,5,6,7,8-,9')
-        expect(merged_pile.all.length).toBe(7);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2*');
-        expect(merged_pile.all[2].text).toBe('3');
-        expect(merged_pile.all[3].text).toBe('4*');
-        expect(merged_pile.all[4].text).toBe('6');
-        expect(merged_pile.all[5].text).toBe('7*');
-        expect(merged_pile.all[6].text).toBe('9');
-    });
-
-    test('1,2,3     1,-2,3', async () => {
-        let merged_pile = await test_pile_merging('1,2,3', '1,2-,3')
-        let postits = merged_pile.all;
-        expect(merged_pile.all.length).toBe(3);
-        expect(merged_pile.all[0].text).toBe('1');
-        expect(merged_pile.all[1].text).toBe('2');
-        expect(merged_pile.all[2].text).toBe('3');
-
-    });
-
 })
