@@ -4,9 +4,26 @@ class Postit {
     #creationDate = null;
     #last_update = 0;
 
+    constructor(text, expiration, last_update) {
+        this.#creationDate = Date.now();
+
+        if (typeof text !== 'undefined') {
+            this.#text = text;
+        }
+
+        if (typeof expiration !== 'undefined') {
+            this.#expiration = expiration;
+        }
+
+        if (typeof last_update !== 'undefined') {
+            this.#last_update = last_update;
+        }
+    }
+
     get id () {
         return this.#creationDate;
     }
+
     get last_update() {
         return this.#last_update;
     }
@@ -42,22 +59,6 @@ class Postit {
 
     }
 
-    constructor(text, expiration, last_update) {
-        this.#creationDate = Date.now();
-
-        if (typeof text !== 'undefined') {
-            this.#text = text;
-        }
-
-        if (typeof expiration !== 'undefined') {
-            this.#expiration = expiration;
-        }
-
-        if (typeof last_update !== 'undefined') {
-            this.#last_update = last_update;
-        }
-    }
-
     static from_JSON(json_string) {
         let obj = JSON.parse(json_string);
         let date = obj.expiration ? new Date(obj.expiration) : null;
@@ -66,7 +67,6 @@ class Postit {
         result.#creationDate = obj.creationDate;
         return result;
     }
-
 
     toJSON() {
         return {
@@ -77,7 +77,6 @@ class Postit {
         }
 
     }
-
 }
 
 module.exports = Postit

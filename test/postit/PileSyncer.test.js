@@ -40,16 +40,13 @@ async function create_piles(pile_1_string, pile_2_string) {
     function find_postit_and_modifier_by_text(postits, text) {
         let search_modifier = extract_modifier(text);
         let search_text = search_modifier ? text.split(search_modifier)[0] : text;
-
         let postit =  postits.find((postit) => {
             let postit_modifier = extract_modifier(postit.text);
             let postit_search_text = postit_modifier ? postit.text.split(postit_modifier)[0] : postit.text;
             return postit_search_text === search_text;
         });
 
-        let postit_modifier = postit ? extract_modifier(postit.text): undefined;
-
-        return {postit, postit_modifier};
+        return postit;
     }
 
     function extract_modifier(text) {
@@ -79,9 +76,9 @@ async function create_piles(pile_1_string, pile_2_string) {
     async function fill_pile(pile, pile_items_string, other_pile) {
         let item_strings = pile_items_string.split(',');
         for (let item_string of item_strings) {
-            let {postit, postit_modifier} = find_postit_and_modifier_by_text(other_pile.all, item_string);
+            let postit = find_postit_and_modifier_by_text(other_pile.all, item_string);
             if (!postit) {
-                let {postit:deleted_postit, postit_modifier} = find_postit_and_modifier_by_text(other_pile.basket, item_string);
+                let deleted_postit = find_postit_and_modifier_by_text(other_pile.basket, item_string);
                 if (deleted_postit) {
                     postit = await create_cloned_postit(deleted_postit, item_string);
                 } else {
