@@ -40,7 +40,6 @@ test('on_select', () => {
 
     expect(stubbed_controller.postit_selected_called).toBe(true);
     expect(stubbed_controller.passed_index).toBe(42);
-    expect(stubbed_post_office.save_called).toBe(true);
 });
 
 test('run_use_case', () => {

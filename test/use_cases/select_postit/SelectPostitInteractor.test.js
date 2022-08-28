@@ -1,4 +1,5 @@
 const SelectPostitInteractor = require("../../../use_cases/select_postit/SelectPostitInteractor");
+const post_office_stub = require("../stubs/post_office_stub");
 it('executes by passing the presenter all postits as a list', () => {
     let present_called = false;
     let passed_list = [];
@@ -23,6 +24,7 @@ it('executes by passing the presenter all postits as a list', () => {
 
 
 it('reacts to postit_selected, by moving the selected postit to the top', () => {
+
     let postits = [{text:1}, {text:2}, {text:3}]
     let small_postits = [{text:1}, {text:3}]
     class PILE{
@@ -39,6 +41,20 @@ it('reacts to postit_selected, by moving the selected postit to the top', () => 
             postits.push(elem);
         }
     }
+
+    class  post_office extends post_office_stub {
+        get pile() {
+            return new PILE();
+        }
+
+        create_postit(){
+            return {
+                text:0, expiration:""
+            }
+        }
+    }
+    let stubbed_post_office = new post_office;
+
     let present_called = false;
     let passed_list = [];
     let take_called = false;
@@ -49,10 +65,10 @@ it('reacts to postit_selected, by moving the selected postit to the top', () => 
                 present_called = true;
             }
         }
-    }, {
-        pile: new PILE()
-    });
+    }, stubbed_post_office);
     interactor.postit_select(1);
     expect(take_called).toBe(true);
     expect(passed_list).toStrictEqual([1, 3, 2]);
+    expect(stubbed_post_office.save_called).toBe(true);
+
 })

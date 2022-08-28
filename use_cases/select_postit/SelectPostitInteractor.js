@@ -13,6 +13,7 @@ class SelectPostitInteractor extends PostitInteractor{
         let pile = this._POST_OFFICE.pile;
         let postit = pile.take(postit_index);
         pile.push(postit);
+        this._POST_OFFICE.save();
 
         this._inform_presenter();
     }

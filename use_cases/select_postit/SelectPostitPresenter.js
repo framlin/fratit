@@ -1,13 +1,12 @@
 const PostitPresenter = require("../PostitPresenter");
 
 class SelectPostitPresenter extends PostitPresenter{
-    constructor(use_case, view, controller, post_office) {
-        super(use_case, view, controller, post_office);
+    constructor(use_case, view, controller) {
+        super(use_case, view, controller);
     }
 
     postit_select(index) {
         this._controller.postit_select(index);
-        this._POST_OFFICE.save();
     }
 
     //@ResponseBoundary
@@ -16,8 +15,6 @@ class SelectPostitPresenter extends PostitPresenter{
             this._view.display(postits);
         }
     }
-
-
 }
 
 module.exports = SelectPostitPresenter;

@@ -4,17 +4,17 @@ const ShowTopPostitPresenter = require("../use_cases/show_top_postit/ShowTopPost
 const DispatchPilePresenter = require("../use_cases/dispatch_pile/DispatchPilePresenter");
 
 const PostitPresenters = {
-    add_postit: (use_case, view, controller, post_office) => {
-        return new AddPostitPresenter(use_case, view, controller, post_office);
+    add_postit: (use_case, view, controller) => {
+        return new AddPostitPresenter(use_case, view, controller);
     },
-    select_postit: (use_case, view, controller, post_office) => {
-        return new SelectPostitPresenter(use_case, view, controller, post_office);
+    select_postit: (use_case, view, controller) => {
+        return new SelectPostitPresenter(use_case, view, controller);
     },
-    show_top_postit: (use_case, view, controller, post_office) => {
-        return new ShowTopPostitPresenter(use_case, view, controller, post_office);
+    show_top_postit: (use_case, view, controller) => {
+        return new ShowTopPostitPresenter(use_case, view, controller);
     },
-    dispatch_pile: (use_case, view, controller, post_office) => {
-        return new DispatchPilePresenter(use_case, view, controller, post_office);
+    dispatch_pile: (use_case, view, controller) => {
+        return new DispatchPilePresenter(use_case, view, controller);
     },
 
 }
