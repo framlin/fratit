@@ -2,8 +2,8 @@ const PostitPresenter = require("../PostitPresenter");
 
 class AddPostitPresenter extends PostitPresenter{
 
-    constructor(use_case, view, controller , post_office) {
-        super(use_case, view, controller, post_office);
+    constructor(use_case, view, controller) {
+        super(use_case, view, controller);
     }
 
     on_view_ready_to_show() {
@@ -12,7 +12,6 @@ class AddPostitPresenter extends PostitPresenter{
 
     on_submit(value) {
         this._controller.add_postit(value);
-        this._POST_OFFICE.save();
     }
 
 

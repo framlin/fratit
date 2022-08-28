@@ -41,7 +41,6 @@ test('on_submit', () => {
 
     expect(stubbed_controller.add_postit_called).toBe(true);
     expect(stubbed_controller.passed_value).toBe(42);
-    expect(stubbed_post_office.save_called).toBe(true);
 });
 
 test('run_use_case', () => {
