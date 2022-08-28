@@ -1,8 +1,8 @@
 // const SelectPostitPresenter = require("../../ui/electron/select_postit/SelectPostitPresenter");
 const SelectPostitPresenter = require("../../../use_cases/select_postit/SelectPostitPresenter");
-const post_office_stub = require("../stubs/post_office_stub");
-const view_stub = require("../stubs/view_stub");
-const controller_stub = require("../stubs/controller_stub");
+const post_office_stub = require("../stubs/PostOfficeSpy");
+const view_stub = require("../stubs/ViewSpy");
+const controller_stub = require("../stubs/ControllerSpy");
 
 class select_postit_controller_stub extends controller_stub{
     postit_selected_called = false

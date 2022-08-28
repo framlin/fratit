@@ -1,6 +1,6 @@
 const PostitPresenter = require("../../use_cases/PostitPresenter");
-const view_stub = require("./stubs/view_stub");
-const controller_stub = require("./stubs/controller_stub");
+const view_stub = require("./stubs/ViewSpy");
+const controller_stub = require("./stubs/ControllerSpy");
 
 let stubbed_view;
 let stubbed_controller;

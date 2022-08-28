@@ -1,16 +1,9 @@
 const ShowTopPostitInteractor = require("../../../use_cases/show_top_postit/ShowTopPostitInteractor");
 const Postit = require("../../../postit/Postit");
-const post_office_stub = require("../stubs/post_office_stub");
+const post_office_stub = require("../stubs/PostOfficeSpy");
+const presenter_stub = require("../stubs/PresenterSpy");
 
-class presenter_stub {
-    present_called = false;
-    passed_value = null;
 
-    present(value) {
-        this.present_called = true;
-        this.passed_value = value;
-    }
-}
 
 class pile_stub {
     top_is_called = false;

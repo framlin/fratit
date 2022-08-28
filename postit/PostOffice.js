@@ -1,3 +1,5 @@
+
+
 const Pile = require("./Pile");
 const Postit = require("./Postit");
 
@@ -5,6 +7,9 @@ class PostOffice {
     #pile;
     #storage;
     #id
+    #remote_post_offices = [
+        {ip: '192.168.188.62', name:'verdi-22.04'}
+    ]
     constructor(pile) {
         this.#pile = pile;
         this.#id = 0;
@@ -17,6 +22,14 @@ class PostOffice {
 
     get pile() {
         return this.#pile;
+    }
+
+    set pile(pile) {
+        this.#pile = pile;
+    }
+
+    get remote_post_offices() {
+        return this.#remote_post_offices;
     }
 
     load() {

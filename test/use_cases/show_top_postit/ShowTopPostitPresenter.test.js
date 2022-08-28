@@ -1,6 +1,6 @@
 const ShowTopPostitPresenterTest = require("../../../use_cases/show_top_postit/ShowTopPostitPresenter");
-const view_stub = require("../stubs/view_stub");
-const controller_stub = require("../stubs/controller_stub");
+const view_stub = require("../stubs/ViewSpy");
+const controller_stub = require("../stubs/ControllerSpy");
 
 let stubbed_view;
 let stubbed_controller;

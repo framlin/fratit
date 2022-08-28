@@ -8,6 +8,12 @@ test('that it delivers a pile', () => {
     expect(pile).toBeInstanceOf(Pile);
 });
 
+it('is possible to set a ne pile', () => {
+    let pile = "A_FAKE_PILE";
+    POST_OFFICE.pile = pile;
+    expect(POST_OFFICE.pile).toBe("A_FAKE_PILE");
+})
+
 test('that it can create a Postit', () => {
     let postit = POST_OFFICE.create_postit();
 
@@ -19,3 +25,8 @@ test('that it is a kind of singleton', () => {
     POST_OFFICE_2._id_ = 42;
     expect(POST_OFFICE._id_).toBe(42);
 });
+
+test('that it delivers the list of remote-post-offices', () => {
+    let remote_post_offices = POST_OFFICE.remote_post_offices;
+    expect(remote_post_offices).not.toBeNull();
+})

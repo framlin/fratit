@@ -1,9 +1,9 @@
 const AddPostitPresenter = require("../../../use_cases/add_postit/AddPostitPresenter");
 const SelectPostitPresenter = require("../../../use_cases/select_postit/SelectPostitPresenter");
 const {add} = require("nodemon/lib/rules");
-const post_office_stub = require("../stubs/post_office_stub");
-const view_stub = require("../stubs/view_stub");
-const controller_stub = require("../stubs/controller_stub");
+const post_office_stub = require("../stubs/PostOfficeSpy");
+const view_stub = require("../stubs/ViewSpy");
+const controller_stub = require("../stubs/ControllerSpy");
 
 class add_postit_controller_stub extends controller_stub{
     add_postit_called = false

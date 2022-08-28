@@ -1,4 +1,4 @@
-class post_office_stub {
+class PostOfficeSpy {
     save_called = false;
     get_pile_called = false;
     pile_stub = null;
@@ -13,4 +13,4 @@ class post_office_stub {
     }
 }
 
-module.exports = post_office_stub;
+module.exports = PostOfficeSpy;

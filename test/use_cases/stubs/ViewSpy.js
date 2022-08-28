@@ -1,4 +1,4 @@
-class view_stub {
+class ViewSpy {
     display_called = false;
     passed_display_value = null;
     display(value) {
@@ -15,4 +15,4 @@ class view_stub {
     }
 }
 
-module.exports = view_stub;
+module.exports = ViewSpy;
