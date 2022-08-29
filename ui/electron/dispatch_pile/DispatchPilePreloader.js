@@ -1,11 +1,9 @@
 const {ipcRenderer} = require("electron");
 
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
 
     let submit_button = document.querySelector("#dispatch_pile-submit");
     submit_button.addEventListener('click', (e) => {
-        console.log(`SUBMIT: CLICK`)
-        debugger
         e.preventDefault();
         let remote_pile_remote_list = document.querySelector('#dispatch_pile-remote_list');
         let remote_pile_data = remote_pile_remote_list.selectedOptions[0].value;
@@ -21,7 +19,6 @@ ipcRenderer.on('dispatch_pile:display', (e, remote_piles) => {
         remote_pile_option.text = remote_pile.name;
         remote_list_select.add(remote_pile_option);
     }
-
 });
 
 
