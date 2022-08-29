@@ -1,4 +1,5 @@
 const http = require("http");
+const Pile = require("../postit/Pile");
 let POST_OFFICE;
 const server = http.createServer(async (req, res) => {
     const buffers = [];
@@ -15,7 +16,7 @@ const server = http.createServer(async (req, res) => {
                 buffers.push(chunk);
             }
             const data = Buffer.concat(buffers).toString();
-            console.log(JSON.parse(data));
+            POST_OFFICE.pile = Pile.from_JSON(data);
             res.end();
             break;
     }

@@ -22,7 +22,7 @@ class PileDispatcher{
     }
 
     send(remote_pile, remote_address) {
-
+        this.#sender.post(remote_pile);
     }
 
 }
