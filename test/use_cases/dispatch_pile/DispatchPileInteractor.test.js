@@ -37,7 +37,7 @@ class PileDispatcherSpy {
         return this._remote_piles;
     }
 
-    receive(remote_address) {
+    fetch(remote_address) {
         this.receive_called = true;
         this.receive_address = remote_address;
         return new PileSpy();
@@ -107,5 +107,6 @@ test('sync_with_remote_pile', async () => {
     expect(pile_syncer_spy.sync_called).toBe(true);
     expect(post_office_spy.set_pile_called).toBe(true);
     expect(pile_dispatcher_spy.send_called).toBe(true);
+    expect(post_office_spy.save_called).toBe(true);
     expect(use_case_stub.presenter.present_success_called).toBe(true);
 });

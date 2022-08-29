@@ -6,11 +6,16 @@ const PILE_DISPATCHER = require("../../transport/PileDispatcher");
 
 
 const RECEIVER = require("../../transport/Receiver");
-RECEIVER.config(POST_OFFICE);
+RECEIVER.config(PILE_DISPATCHER);
 RECEIVER.start();
 
+const REMOTE_PILES = [
+    {ip: '192.168.188.62', name:'verdi-22.04'}
+]
 const SENDER = require("../../transport/Sender");
 PILE_DISPATCHER.sender = SENDER;
+PILE_DISPATCHER.post_office = POST_OFFICE;
+PILE_DISPATCHER.remote_piles = REMOTE_PILES;
 
 
 POST_OFFICE.storage = PILE_STORAGE;

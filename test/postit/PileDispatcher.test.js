@@ -1,11 +1,6 @@
 const PILE_DISPATCHER = require("../../transport/PileDispatcher");
 const Pile = require("../../postit/Pile");
 
-test('that it delivers the list of remote-post-offices', () => {
-    let remote_piles = PILE_DISPATCHER.remote_piles;
-    expect(remote_piles).toBeDefined();
-    expect(remote_piles).not.toBeNull();
-});
 
 test('setting remote piles', () => {
     PILE_DISPATCHER.remote_piles = [1];
@@ -19,7 +14,7 @@ class SenderSpy {
 }
 test('receiving remote piles', async () => {
     PILE_DISPATCHER.sender = new SenderSpy();
-    let remote_pile = await PILE_DISPATCHER.receive('remote_address');
+    let remote_pile = await PILE_DISPATCHER.fetch('remote_address');
         expect(remote_pile).toBeInstanceOf(Pile);
 })
 

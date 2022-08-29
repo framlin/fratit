@@ -1,6 +1,8 @@
 const http = require("http");
 const Pile = require("../postit/Pile");
-let POST_OFFICE;
+
+let PILE_DISPATCHER;
+
 const server = http.createServer(async (req, res) => {
     const buffers = [];
     const { method } = req;
@@ -8,7 +10,7 @@ const server = http.createServer(async (req, res) => {
         case "GET":
             res.statusCode = 200
             res.setHeader("Content-Type", "application/json")
-            let pile = JSON.stringify(POST_OFFICE.pile);
+            let pile = JSON.stringify(PILE_DISPATCHER.local_pile);
             res.end(pile);
             break;
         case "POST":
@@ -16,7 +18,7 @@ const server = http.createServer(async (req, res) => {
                 buffers.push(chunk);
             }
             const data = Buffer.concat(buffers).toString();
-            POST_OFFICE.pile = Pile.from_JSON(data);
+            PILE_DISPATCHER.receive(Pile.from_JSON(data));
             res.end();
             break;
     }
@@ -33,8 +35,8 @@ class Receiver {
         })
     }
 
-    static config(post_office) {
-        POST_OFFICE = post_office;
+    static config(pile_dispatcher) {
+        PILE_DISPATCHER = pile_dispatcher;
     }
 }
 
