@@ -1,5 +1,5 @@
 const AddPostitInteractor = require("../../../use_cases/add_postit/AddPostitInteractor");
-const post_office_stub = require("../stubs/post_office_stub");
+const post_office_stub = require("../stubs/PostOfficeSpy");
 
 it('executes by pushing the passed data to the top of the pile', () => {
     let postit_data = {

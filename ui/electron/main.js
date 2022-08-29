@@ -2,6 +2,8 @@ const {app, BrowserWindow} = require('electron');
 
 const POST_OFFICE = require("../../postit/PostOffice");
 const PILE_STORAGE = require("../../storage/PileStorage");
+const PILE_DISPATCHER = require("../../transport/PileDispatcher");
+
 
 POST_OFFICE.storage = PILE_STORAGE;
 
@@ -12,6 +14,8 @@ const UseCaseFactory = require("../../factories/UseCaseFactory");
 const path = require("path");
 const {readFile, writeFile} = require("fs/promises");
 const PresenterFactory = require("../../factories/PresenterFactory");
+const PILE_SYNCER = require("../../postit/PileSyncer");
+
 
 const CONFIG_FILE_NAME = path.join(app.getPath("userData"), 'config.json');
 let FRATIT_CONFIG;
@@ -45,7 +49,7 @@ load_config().then(() => {
 });
 
 ViewFactory.config(POST_OFFICE);
-InteractorFactory.config(POST_OFFICE);
+InteractorFactory.config(POST_OFFICE, PILE_DISPATCHER, PILE_SYNCER);
 UseCaseFactory.config(ViewFactory, PresenterFactory, ControllerFactory, InteractorFactory, POST_OFFICE);
 
 app.whenReady().then(() => {

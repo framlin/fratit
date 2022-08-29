@@ -9,12 +9,11 @@ const PostOfficeSpy = require("../stubs/PostOfficeSpy");
 let use_case_stub = new UseCaseStub();
 let view_spy = new ViewSpy();
 let controller_spy = new ControllerSpy();
-let post_office_spy = new PostOfficeSpy();
 
 let presenter;
 
 beforeEach(() => {
-    presenter = new DispatchPilePresenter(use_case_stub, view_spy, controller_spy, post_office_spy)
+    presenter = new DispatchPilePresenter(use_case_stub, view_spy, controller_spy)
 });
 
 test('creation', () => {

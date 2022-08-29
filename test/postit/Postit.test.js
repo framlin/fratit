@@ -7,9 +7,19 @@ beforeEach(() => {
     postit = new Postit();
 });
 
-test('creation', () => {
-    expect(postit).toBeInstanceOf(Postit);
-});
+function create_two_postit_clones() {
+    let postit_1 = new Postit();
+    let json = JSON.stringify(postit_1);
+    let postit_2 = Postit.from_JSON(json);
+    return {postit_1, postit_2};
+}
+
+async function create_two_delayed_postits() {
+    let postit_1 = new Postit();
+    await new Promise((r) => setTimeout(r, 2));
+    let postit_2 = new Postit();
+    return {postit_1, postit_2};
+}
 
 test('that it can created with text and date passed', () => {
     let expires = new Date(2022,7,19);
@@ -78,34 +88,24 @@ test('that the postit is the same as itself', () => {
     expect(postit.is_same_as(postit)).toBe(true);
 });
 
+
 test('that one postit is not the same as another postit, that is created a little bit later', async () => {
-    let postit_1 = new Postit();
-    await new Promise((r) => setTimeout(r, 2));
-    let postit_2 = new Postit();
+    let {postit_1, postit_2} = await create_two_delayed_postits();
     expect(postit_1.is_same_as(postit_2)).toBe(false);
 });
 
 test('that a postit keeps the same after serialization and de-serialization', () => {
-    let postit_1 = new Postit();
-    let json = JSON.stringify(postit_1);
-    let postit_2 = Postit.from_JSON(json);
-
+    let {postit_1, postit_2} = create_two_postit_clones();
     expect(postit_1.is_same_as(postit_2)).toBe(true);
 });
 
 test('that the expiration of a de-serialized postit without expiration is null', () => {
-    let postit_1 = new Postit();
-    let json = JSON.stringify(postit_1);
-    let postit_2 = Postit.from_JSON(json);
-
-    expect(postit.expiration).toBeNull();
-
+    let {postit_1, postit_2} = create_two_postit_clones();
+    expect(postit_2.expiration).toBeNull();
 })
 
 it('keeps the same, even if it is serialized and deserialized twice and properties are changed between', () => {
-    let postit_1 = new Postit();
-    let json_1 = JSON.stringify(postit_1);
-    let postit_2 = Postit.from_JSON(json_1);
+    let {postit_1, postit_2} = create_two_postit_clones();
     postit_2.text = 'different';
     let json_2 = JSON.stringify(postit_2);
     let postit_3 = Postit.from_JSON(json_2);
@@ -117,13 +117,6 @@ test('that a postit is equal with itself', () => {
     expect(postit.is_equal_with(postit)).toBe(true);
 });
 
-test("that 2 postits aren't equal, if both are 'empty' postits", async () => {
-    let postit_1 = new Postit();
-    await new Promise((r) => setTimeout(r, 2));
-    let postit_2 = new Postit();
-    expect(postit_1.is_equal_with(postit_2)).toBe(false);
-});
-
 test('that 2 postits are not equal, even if they have the same properties', async () => {
     let date = new Date('2022,1,1');
     let text = "test";
@@ -131,4 +124,12 @@ test('that 2 postits are not equal, even if they have the same properties', asyn
     await new Promise((r) => setTimeout(r, 2));
     let postit_2 = new Postit(text, date);
     expect(postit_1.is_equal_with(postit_2)).toBe(false);
+});
+
+
+test('that a cloned postit is more current if it has been updated after cloning', () => {
+    let {postit_1, postit_2} = create_two_postit_clones();
+    postit_2.text = 'different';
+
+    expect(postit_2.is_more_current(postit_1)).toBe(true);
 });

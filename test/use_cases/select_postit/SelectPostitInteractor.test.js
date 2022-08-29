@@ -1,5 +1,5 @@
 const SelectPostitInteractor = require("../../../use_cases/select_postit/SelectPostitInteractor");
-const post_office_stub = require("../stubs/post_office_stub");
+const post_office_stub = require("../stubs/PostOfficeSpy");
 it('executes by passing the presenter all postits as a list', () => {
     let present_called = false;
     let passed_list = [];

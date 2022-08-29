@@ -59,6 +59,10 @@ class Postit {
 
     }
 
+    is_more_current(postit_to_compare_with) {
+        return this.last_update > postit_to_compare_with.last_update;
+    }
+
     static from_JSON(json_string) {
         let obj = JSON.parse(json_string);
         let date = obj.expiration ? new Date(obj.expiration) : null;

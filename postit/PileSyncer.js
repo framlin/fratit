@@ -1,9 +1,5 @@
 const Pile = require("./Pile");
 
-
-
-
-
 class PileSyncer {
     sync(pile_1, pile_2) {
         let {smaller_pile, larger_pile} = this.order_piles(pile_1, pile_2);
@@ -24,7 +20,7 @@ class PileSyncer {
             if (!found_larger_pile_postit) {
                 this._if_postit_not_deleted_push_to_result(smaller_pile_postit, larger_pile, result)
             } else {
-                if_is_newer_push_to_result(smaller_pile_postit, found_larger_pile_postit);
+                if_is_more_current_push_to_result(smaller_pile_postit, found_larger_pile_postit);
             }
         }
 
@@ -33,8 +29,8 @@ class PileSyncer {
             return larger_pile_postit;
         }
 
-        function if_is_newer_push_to_result(smaller_pile_postit, larger_pile_postit) {
-            if (smaller_pile_postit.last_update > larger_pile_postit.last_update) {
+        function if_is_more_current_push_to_result(smaller_pile_postit, larger_pile_postit) {
+            if (smaller_pile_postit.is_more_current(larger_pile_postit)) {
                 let index = larger_pile.all.indexOf(larger_pile_postit);
                 larger_pile.take(index);
                 result.push(smaller_pile_postit);
@@ -80,4 +76,5 @@ class PileSyncer {
 
 }
 
-module.exports = PileSyncer;
+const PILE_SYNCER = new PileSyncer()
+module.exports = PILE_SYNCER;

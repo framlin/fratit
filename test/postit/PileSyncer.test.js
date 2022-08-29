@@ -1,7 +1,6 @@
-const PileMerger = require("../../postit/PileSyncer");
+const PILE_SYNCER = require("../../postit/PileSyncer");
 const Postit = require("../../postit/Postit");
 const Pile = require("../../postit/Pile");
-let pile_syncer;
 
 function expect_to_be_the_same_but_different(postit_1, postit_2) {
     let same = postit_1.is_same_as(postit_2);
@@ -20,7 +19,7 @@ function clone_postit(postit) {
 
 async function test_pile_syncing(pile_1_string, pile_2_string, expected_items_string) {
     let {pile_1, pile_2} = await create_piles(pile_1_string, pile_2_string);
-    let synced_pile = pile_syncer.sync(pile_1, pile_2);
+    let synced_pile = PILE_SYNCER.sync(pile_1, pile_2);
     let postits = synced_pile.all;
     let expected_texts = expected_items_string === "" ? [] : expected_items_string.split(',');
     expect(postits.length).toBe(expected_texts.length);
@@ -371,9 +370,7 @@ describe('test_pile_syncing-function', () => {
     });
 });
 
-beforeEach(() => {
-    pile_syncer = new PileMerger();
-});
+
 
 describe('simple cases and untouched postits', () => {
     test('_ / _ => []', async () => {
