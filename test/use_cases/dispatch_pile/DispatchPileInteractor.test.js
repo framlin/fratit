@@ -97,12 +97,12 @@ test('remote_pile_selected calls pile_dispatcher.receive in a second step', () =
     expect(pile_dispatcher_spy.receive_called).toBe(true);
 });
 
-test('sync_with_remote_pile', () => {
+test('sync_with_remote_pile', async () => {
     let pile_dispatcher_spy = new PileDispatcherSpy([]);
     let pile_syncer_spy = new PileSyncerSpy();
     let post_office_spy = new PostOfficeSpy();
     interactor = new DispatchPileInteractor(use_case_stub, post_office_spy, pile_dispatcher_spy, pile_syncer_spy);
-    interactor.remote_pile_selected('');
+    await interactor.remote_pile_selected('');
     expect(pile_dispatcher_spy.receive_called).toBe(true);
     expect(pile_syncer_spy.sync_called).toBe(true);
     expect(post_office_spy.set_pile_called).toBe(true);
