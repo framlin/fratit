@@ -18,12 +18,12 @@ class DispatchPileInteractor extends PostitInteractor{
         this.presenter.present(remote_piles_list);
     }
 
-    remote_pile_selected(remote_pile_address) {
-        this.sync_with_remote_pile(remote_pile_address);
+    async remote_pile_selected(remote_pile_address) {
+        await this.sync_with_remote_pile(remote_pile_address);
     }
 
-    sync_with_remote_pile(remote_pile_address) {
-        let remote_pile  = this._PILE_DISPATCHER.receive(remote_pile_address);
+    async sync_with_remote_pile(remote_pile_address) {
+        let remote_pile  = await this._PILE_DISPATCHER.receive(remote_pile_address);
         let local_pile = this._POST_OFFICE.pile;
         let synced_pile = this._PILE_SYNCER.sync(local_pile, remote_pile);
         this._POST_OFFICE.pile = synced_pile;

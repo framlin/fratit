@@ -1,10 +1,13 @@
-const Pile = require("../postit/Pile");
-
 class PileDispatcher{
     #remote_piles = null;
+    #sender = null;
 
     constructor(remote_piles) {
         this.#remote_piles = remote_piles;
+    }
+
+    set sender(sender){
+        this.#sender = sender;
     }
 
     set remote_piles(remote_piles) {
@@ -14,9 +17,10 @@ class PileDispatcher{
         return this.#remote_piles;
     }
 
-    receive(remote_pile) {
-        return new Pile();
+    async receive(remote_pile_ip) {
+        return await this.#sender.get_pile();
     }
+
     send(remote_pile, remote_address) {
 
     }

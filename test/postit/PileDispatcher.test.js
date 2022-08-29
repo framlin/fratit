@@ -12,8 +12,14 @@ test('setting remote piles', () => {
     expect(PILE_DISPATCHER.remote_piles).toStrictEqual([1]);
 });
 
-test('receiving remote piles', () => {
-    let remote_pile = PILE_DISPATCHER.receive('remote_address');
+class SenderSpy {
+    get_pile() {
+        return new Pile();
+    }
+}
+test('receiving remote piles', async () => {
+    PILE_DISPATCHER.sender = new SenderSpy();
+    let remote_pile = await PILE_DISPATCHER.receive('remote_address');
         expect(remote_pile).toBeInstanceOf(Pile);
 })
 

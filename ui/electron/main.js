@@ -5,6 +5,14 @@ const PILE_STORAGE = require("../../storage/PileStorage");
 const PILE_DISPATCHER = require("../../transport/PileDispatcher");
 
 
+const RECEIVER = require("../../transport/Receiver");
+RECEIVER.config(POST_OFFICE);
+RECEIVER.start();
+
+const SENDER = require("../../transport/Sender");
+PILE_DISPATCHER.sender = SENDER;
+
+
 POST_OFFICE.storage = PILE_STORAGE;
 
 const InteractorFactory = require("../../factories/InteractorFactory");
