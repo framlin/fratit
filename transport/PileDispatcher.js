@@ -34,6 +34,7 @@ class PileDispatcher{
 
     receive(received_pile) {
         this.#POST_OFFICE.pile = received_pile;
+        this.#POST_OFFICE.save();
     }
 }
 
