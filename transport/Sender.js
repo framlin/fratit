@@ -6,11 +6,13 @@ axios.defaults.responseType = 'json';
 axios.defaults.transformResponse=  [];
 
 class Sender{
-    static post(data) {
-        axios.post('http://localhost:8088', data);
+    static post(data, remote_pile_address) {
+        axios.defaults.baseURL = `http://${remote_pile_address}:8088`
+        axios.post(`http://${remote_pile_address}:8088`, data);
     }
 
-    static async get_pile() {
+    static async get_pile(remote_pile_address) {
+        axios.defaults.baseURL = `http://${remote_pile_address}:8088`
         try {
             const response = await axios.get('/pile');
             return Pile.from_JSON(response.data);
@@ -21,5 +23,4 @@ class Sender{
 }
 
 const SENDER = Sender;
-
 module.exports = SENDER;

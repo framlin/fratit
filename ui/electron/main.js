@@ -3,19 +3,16 @@ const {app, BrowserWindow} = require('electron');
 const POST_OFFICE = require("../../postit/PostOffice");
 const PILE_STORAGE = require("../../storage/PileStorage");
 const PILE_DISPATCHER = require("../../transport/PileDispatcher");
+const REMOTE_PILES_STORAGE = require("../../storage/RemotePilesStorage");
 
 
 const RECEIVER = require("../../transport/Receiver");
 RECEIVER.config(PILE_DISPATCHER);
 RECEIVER.start();
 
-const REMOTE_PILES = [
-    {ip: '192.168.188.62', name:'verdi-22.04'}
-]
 const SENDER = require("../../transport/Sender");
 PILE_DISPATCHER.sender = SENDER;
 PILE_DISPATCHER.post_office = POST_OFFICE;
-PILE_DISPATCHER.remote_piles = REMOTE_PILES;
 
 
 POST_OFFICE.storage = PILE_STORAGE;
@@ -45,8 +42,20 @@ async function  load_config() {
     let storage_dir = FRATIT_CONFIG.pile_storage;
     let storage_path = path.join(app.getPath("userData"), storage_dir);
 
+
+
     PILE_STORAGE.config(storage_path);
     PILE_STORAGE.load().then();
+
+    REMOTE_PILES_STORAGE.config(storage_path);
+    REMOTE_PILES_STORAGE.load().then(() => {
+        PILE_DISPATCHER.remote_piles = REMOTE_PILES_STORAGE.remote_piles;
+    });
+
+    // const REMOTE_PILES = [
+    //     {ip: '192.168.188.62', name:'verdi-22.04'}
+    // ]
+    // REMOTE_PILES_STORAGE.remote_piles = REMOTE_PILES;
 }
 
 async function  save_config(config) {
@@ -85,6 +94,7 @@ app.on('window-all-closed', () => {
 
 app.on('before-quit', () => {
     save_config(FRATIT_CONFIG).then();
+    REMOTE_PILES_STORAGE.save().then();
 });
 
 //================================    TEST     ==================================

@@ -4,10 +4,6 @@ class PileDispatcher{
     #POST_OFFICE = null;
 
 
-    set remote_piles(remote_piles) {
-        this.#remote_piles = remote_piles;
-    }
-
     set post_office(post_office) {
         this.#POST_OFFICE = post_office;
     }
@@ -29,17 +25,16 @@ class PileDispatcher{
     }
 
     async fetch(remote_pile_ip_address) {
-        return await this.#sender.get_pile();
+        return await this.#sender.get_pile(remote_pile_ip_address);
     }
 
     send(remote_pile, remote_pile_ip_address) {
-        this.#sender.post(remote_pile);
+        this.#sender.post(remote_pile, remote_pile_ip_address);
     }
 
     receive(received_pile) {
         this.#POST_OFFICE.pile = received_pile;
     }
-
 }
 
 const PILE_DISPATCHER = new PileDispatcher();
