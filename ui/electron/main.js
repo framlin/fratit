@@ -95,6 +95,7 @@ app.on('window-all-closed', () => {
 app.on('before-quit', () => {
     save_config(FRATIT_CONFIG).then();
     REMOTE_PILES_STORAGE.save().then();
+    PILE_STORAGE.save().then();
 });
 
 //================================    TEST     ==================================

@@ -1,5 +1,3 @@
-
-
 const Pile = require("./Pile");
 const Postit = require("./Postit");
 
@@ -7,6 +5,7 @@ class PostOffice {
     #pile;
     #storage;
     #id
+
     constructor(pile) {
         this.#pile = pile;
         this.#id = 0;
@@ -23,6 +22,19 @@ class PostOffice {
 
     set pile(pile) {
         this.#pile = pile;
+        if (this.#storage) {
+            this.#storage.PILE = this.#pile;
+        }
+    }
+
+    //for the Singleton-Test
+    get _id_() {
+        return this.#id;
+    }
+
+    //for the Singleton-Test
+    set _id_(id) {
+        this.#id = id;
     }
 
     load() {
@@ -35,25 +47,15 @@ class PostOffice {
 
     save() {
         if (this.#storage) {
+            this.#storage.PILE = this.#pile;
             this.#storage.save();
         } else {
             throw new Error("NO PILE_STORAGE");
         }
     }
 
-
     create_postit() {
         return new Postit();
-    }
-
-    //for the Singleton-Test
-    get _id_() {
-        return this.#id;
-    }
-
-    //for the Singleton-Test
-    set _id_(id) {
-        this.#id = id;
     }
 }
 
