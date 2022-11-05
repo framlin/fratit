@@ -109,7 +109,7 @@ test('that a de-serialized pile has type Pile', () => {
 });
 
 
-test('that a de-serialized properties are correct', () => {
+test.skip('that a de-serialized properties are correct', () => {
     let postit = new Postit();
     postit.text = "TEXT"
     let items = [postit]
@@ -149,7 +149,7 @@ it('sets the last-updated-date, when anything has changed on the pile', () => {
 
 })
 
-it('does no re-set the last-update to 0, when it gets serialized and de-serialized', () => {
+it.skip('does no re-set the last-update to 0, when it gets serialized and de-serialized', () => {
     let pile = new Pile([1,2,3]);
     pile.push(4);
     let before = pile.last_update;
