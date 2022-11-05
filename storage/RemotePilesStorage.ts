@@ -1,20 +1,23 @@
 const { writeFile, readFile, access, mkdir } = require('fs/promises');
 const path = require('path');
-type TODO = any;
+
+type RemotePileAddress = {ip: string; name: string};
+
 export class RemotePilesStorage{
 
-    private _remote_piles: TODO;
-    private _path: TODO
+    private _remote_piles: RemotePileAddress[] | undefined ;
+    private _path: string | undefined;
 
-    get remote_piles() {
-        return this._remote_piles;
+    get remote_piles() : RemotePileAddress[] | undefined{
+        if (this._remote_piles) return this._remote_piles;
+
     }
 
-    set remote_piles(remote_piles: TODO) {
+    set remote_piles(remote_piles:  RemotePileAddress[] | undefined) {
         this._remote_piles = remote_piles;
     }
 
-    config (storage_path: TODO) {
+    config (storage_path: string) {
         this._path = storage_path;
         access(this._path).catch(() => {
             mkdir(this._path).then();
@@ -35,8 +38,6 @@ export class RemotePilesStorage{
             console.log(this._remote_piles);
         } catch ( e ) {}
     }
-
-
 }
 
 export const REMOTE_PILES_STORAGE = new RemotePilesStorage();
