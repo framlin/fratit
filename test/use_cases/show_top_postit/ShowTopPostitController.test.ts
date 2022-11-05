@@ -1,5 +1,6 @@
-const ShowTopPostitController = require("../../../use_cases/show_top_postit/ShowTopPostitController");
+import {ShowTopPostitController} from "../../../use_cases/show_top_postit/ShowTopPostitController";
 
+type TODO = any;
 class interactor_stub{
     execute_called = false;
     delete_postit_called = false;
@@ -11,7 +12,7 @@ class interactor_stub{
     }
 }
 let stubbed_interactor = new interactor_stub();
-let show_top_postit_controller;
+let show_top_postit_controller: TODO;
 beforeEach(() => {
     show_top_postit_controller = new ShowTopPostitController(stubbed_interactor);
 });

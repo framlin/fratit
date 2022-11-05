@@ -1,16 +1,18 @@
-const AddPostitInteractor = require("../../../use_cases/add_postit/AddPostitInteractor");
-const post_office_stub = require("../stubs/PostOfficeSpy");
+import {AddPostitInteractor} from "../../../use_cases/add_postit/AddPostitInteractor";
+import {PostOfficeSpy} from "../stubs/PostOfficeSpy";
+
+type TODO = any;
 
 it('executes by pushing the passed data to the top of the pile', () => {
     let postit_data = {
         text:'text',
         expiration : '1.2.2022'
     };
-    let postits = [];
-    class  post_office extends post_office_stub {
+    let postits: TODO = [];
+    class  post_office extends PostOfficeSpy {
         _pile = {
             all: postits,
-            push: (elem) => {
+            push: (elem: TODO) => {
                 postits.push(elem)
             }
         }
@@ -28,7 +30,7 @@ it('executes by pushing the passed data to the top of the pile', () => {
     let passed_postit = null;
     let display_called = false;
     let presenter = {
-        present: (postit) => {
+        present: (postit: TODO) => {
             display_called = true;
             passed_postit = postit;
         }

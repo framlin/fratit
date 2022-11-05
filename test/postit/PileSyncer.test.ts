@@ -1,23 +1,25 @@
-const PILE_SYNCER = require("../../postit/PileSyncer");
-const Postit = require("../../postit/Postit");
-const Pile = require("../../postit/Pile");
+import {PILE_SYNCER} from "../../postit/PileSyncer";
+import {Postit} from "../../postit/Postit";
+import {Pile} from "../../postit/Pile";
 
-function expect_to_be_the_same_but_different(postit_1, postit_2) {
+type TODO = any;
+
+function expect_to_be_the_same_but_different(postit_1: TODO, postit_2: TODO) {
     let same = postit_1.is_same_as(postit_2);
     let different = !(postit_1.is_equal_with(postit_2));
     expect(same && different).toBe(true);
 }
 
-function expect_to_be_equal(postit_1, postit_2) {
+function expect_to_be_equal(postit_1: TODO, postit_2: TODO) {
     expect(postit_1.is_same_as(postit_2)).toBe(true);
 }
 
-function clone_postit(postit) {
+function clone_postit(postit: TODO) {
     let json = JSON.stringify(postit);
     return Postit.from_JSON(json);
 }
 
-async function test_pile_syncing(pile_1_string, pile_2_string, expected_items_string) {
+async function test_pile_syncing(pile_1_string: TODO, pile_2_string: TODO, expected_items_string: TODO) {
     let {pile_1, pile_2} = await create_piles(pile_1_string, pile_2_string);
     let synced_pile = PILE_SYNCER.sync(pile_1, pile_2);
     let postits = synced_pile.all;
@@ -28,18 +30,18 @@ async function test_pile_syncing(pile_1_string, pile_2_string, expected_items_st
     }
 }
 
-async function create_piles(pile_1_string, pile_2_string) {
+async function create_piles(pile_1_string: TODO, pile_2_string: TODO) {
 
-    async function create_new_postit(text) {
+    async function create_new_postit(text: TODO) {
         let result = new Postit(text);
         await delay();
         return result;
     }
 
-    function find_postit_and_modifier_by_text(postits, text) {
+    function find_postit_and_modifier_by_text(postits: TODO, text: TODO) {
         let search_modifier = extract_modifier(text);
         let search_text = search_modifier ? text.split(search_modifier)[0] : text;
-        let postit =  postits.find((postit) => {
+        let postit =  postits.find((postit: TODO) => {
             let postit_modifier = extract_modifier(postit.text);
             let postit_search_text = postit_modifier ? postit.text.split(postit_modifier)[0] : postit.text;
             return postit_search_text === search_text;
@@ -48,18 +50,18 @@ async function create_piles(pile_1_string, pile_2_string) {
         return postit;
     }
 
-    function extract_modifier(text) {
+    function extract_modifier(text: TODO) {
         let result;
         let last_char = text.charAt(text.length - 1);
         if ("-*".includes(last_char)) result = last_char;
         return result;
     }
 
-    function delay(ms=2) {
+    function delay(ms: TODO=2) {
         return new Promise((r) => setTimeout(r, ms));
     }
 
-    async function create_cloned_postit(postit, item_string) {
+    async function create_cloned_postit(postit: TODO, item_string: TODO) {
         let cloned_postit = clone_postit(postit);
         let postit_text = postit.text;
         let modifier = extract_modifier(postit_text);
@@ -72,7 +74,7 @@ async function create_piles(pile_1_string, pile_2_string) {
         return cloned_postit;
     }
 
-    async function fill_pile(pile, pile_items_string, other_pile) {
+    async function fill_pile(pile: TODO, pile_items_string: TODO, other_pile: TODO) {
         let item_strings = pile_items_string.split(',');
         for (let item_string of item_strings) {
             let postit = find_postit_and_modifier_by_text(other_pile.all, item_string);
@@ -369,8 +371,6 @@ describe('test_pile_syncing-function', () => {
 
     });
 });
-
-
 
 describe('simple cases and untouched postits', () => {
     test('_ / _ => []', async () => {

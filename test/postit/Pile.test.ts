@@ -1,14 +1,17 @@
-const Pile = require("../../postit/Pile");
-const Postit = require("../../postit/Postit");
-let pile;
+import {Pile} from "../../postit/Pile";
+import {Postit} from "../../postit/Postit";
+// @ts-ignore
+type TODO = any;
+let pile: TODO;
 
-function push_two_items(pile) {
+function push_two_items(pile: TODO) {
     pile.push({value:'One'});
     pile.push({value: 'Two'});
 }
 
 function create_123_pile() {
     let new_pile =  new Pile([1,2,3]);
+    // @ts-ignore
     new_pile.storage = {save: () => {}, load: ()=> {}};
     return new_pile;
 }
@@ -122,7 +125,7 @@ test.skip('that a de-serialized properties are correct', () => {
 });
 
 it('sets the last-updated-date, when anything has changed on the pile', () => {
-    function check_last_update(fun) {
+    function check_last_update(fun: TODO) {
         let pile = new Pile([1,2,3]);
         let before = pile.last_update;
         fun(pile);
@@ -130,19 +133,19 @@ it('sets the last-updated-date, when anything has changed on the pile', () => {
         expect(before).toBeLessThan(after);
     }
 
-    check_last_update((pile) => {
+    check_last_update((pile: TODO) => {
         pile.push(1);
     })
-    check_last_update((pile) => {
+    check_last_update((pile: TODO) => {
         pile.pop();
     })
-    check_last_update((pile) => {
+    check_last_update((pile: TODO) => {
         pile.put(1,4);
     })
-    check_last_update((pile) => {
+    check_last_update((pile: TODO) => {
         pile.take(1);
     })
-    check_last_update((pile) => {
+    check_last_update((pile: TODO) => {
         pile.clear();
     })
 

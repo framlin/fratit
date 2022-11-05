@@ -1,6 +1,9 @@
-const SelectPostitController = require("../../../use_cases/select_postit/SelectPostitController");
+import {SelectPostitController} from "../../../use_cases/select_postit/SelectPostitController";
+
+type TODO = any;
 
 test('creation', () => {
+    // @ts-ignore
     let controller = new SelectPostitController();
     expect(controller).toBeInstanceOf(SelectPostitController);
 });
@@ -25,7 +28,7 @@ test("passing index to interactor", () => {
 
     let controller = new SelectPostitController({
         //interactor
-        postit_select: (index) => {
+        postit_select: (index: TODO) => {
             interactor_postit_selected_called = true;
             passed_index = index
         }

@@ -1,7 +1,9 @@
-const DispatchPileInteractor = require("../../../use_cases/dispatch_pile/DispatchPileInteractor");
-const PostOfficeSpy = require("../stubs/PostOfficeSpy");
-const PresenterSpy = require("../stubs/PresenterSpy");
-const UseCaseStub = require("../stubs/UseCaseStub");
+import {DispatchPileInteractor} from "../../../use_cases/dispatch_pile/DispatchPileInteractor";
+import {PostOfficeSpy} from "../stubs/PostOfficeSpy";
+import {PresenterSpy} from "../stubs/PresenterSpy";
+import {UseCaseStub} from "../stubs/UseCaseStub";
+
+type TODO = any;
 
 class DispatchPilePresenterSpy extends PresenterSpy {
     present_success_called = false;
@@ -28,7 +30,7 @@ class PileDispatcherSpy {
     sent_address = ''
     sent_pile = null;
 
-    constructor(remote_piles) {
+    constructor(remote_piles: TODO) {
         this._remote_piles = remote_piles;
     }
 
@@ -37,12 +39,12 @@ class PileDispatcherSpy {
         return this._remote_piles;
     }
 
-    fetch(remote_address) {
+    fetch(remote_address: TODO) {
         this.receive_called = true;
         this.receive_address = remote_address;
         return new PileSpy();
     }
-    send(remote_pile, remote_address) {
+    send(remote_pile: TODO, remote_address: TODO) {
         this.send_called = true;
         this.sent_pile = remote_pile;
         this.sent_address = remote_address;
@@ -51,7 +53,7 @@ class PileDispatcherSpy {
 
 class PileSyncerSpy {
     sync_called = false;
-    sync(pile_1, pile_2) {
+    sync(pile_1: TODO, pile_2: TODO) {
         this.sync_called = true;
     }
 }
@@ -68,6 +70,8 @@ describe('remote post-offices-list', () => {
         ];
         let pile_dispatcher_spy = new PileDispatcherSpy(remote_p_o_list)
         let post_office_spy = new PostOfficeSpy();
+
+        // @ts-ignore
         interactor = new DispatchPileInteractor(use_case_stub, post_office_spy, pile_dispatcher_spy);
 
         interactor.execute();
@@ -80,6 +84,8 @@ describe('remote post-offices-list', () => {
         }
         function expect_pass_list_to_the_presenter() {
             expect(presenter_spy.present_called).toBe(true);
+
+            // @ts-ignore
             expect(presenter_spy.passed_value.length).toBe(3);
             expect(presenter_spy.passed_value).toStrictEqual(remote_p_o_list);
         }
@@ -108,5 +114,6 @@ test('sync_with_remote_pile', async () => {
     expect(post_office_spy.set_pile_called).toBe(true);
     expect(pile_dispatcher_spy.send_called).toBe(true);
     expect(post_office_spy.save_called).toBe(true);
+    // @ts-ignore
     expect(use_case_stub.presenter.present_success_called).toBe(true);
 });

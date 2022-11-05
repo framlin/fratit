@@ -1,10 +1,12 @@
-const ShowTopPostitPresenterTest = require("../../../use_cases/show_top_postit/ShowTopPostitPresenter");
-const view_stub = require("../stubs/ViewSpy");
-const controller_stub = require("../stubs/ControllerSpy");
+import {ShowTopPostitPresenter} from "../../../use_cases/show_top_postit/ShowTopPostitPresenter";
+import {ViewSpy as view_stub} from "../stubs/ViewSpy";
+import {ControllerSpy as controller_stub} from "../stubs/ControllerSpy";
 
-let stubbed_view;
-let stubbed_controller;
-let post_office_stub = {};
+type TODO = any;
+
+let stubbed_view: TODO;
+let stubbed_controller: TODO;
+let post_office_stub : TODO= {};
 
 class show_top_postit_controller_stub extends controller_stub{
     postit_deleted_called = false;
@@ -13,16 +15,17 @@ class show_top_postit_controller_stub extends controller_stub{
     }
 }
 
-let show_top_postit_presenter;
+let show_top_postit_presenter: TODO;
 beforeEach(() => {
     stubbed_controller = new show_top_postit_controller_stub();
     stubbed_view = new view_stub();
     let use_case_stub = {name: 'show_top_postit'}
-    show_top_postit_presenter = new ShowTopPostitPresenterTest(use_case_stub, stubbed_view, stubbed_controller, post_office_stub)
+    // @ts-ignore
+    show_top_postit_presenter = new ShowTopPostitPresenter(use_case_stub, stubbed_view, stubbed_controller, post_office_stub)
 });
 
 it('can be created and callback is registered and calls run_use_case', () => {
-    expect(show_top_postit_presenter).toBeInstanceOf(ShowTopPostitPresenterTest);
+    expect(show_top_postit_presenter).toBeInstanceOf(ShowTopPostitPresenter);
     expect(stubbed_view.register_event_called).toBe(true);
     expect(stubbed_view.registered_event).toBe('ready-to-show');
     expect(stubbed_controller.run_use_case_called).toBe(true);

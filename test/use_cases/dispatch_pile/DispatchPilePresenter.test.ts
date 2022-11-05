@@ -1,16 +1,17 @@
-const DispatchPilePresenter = require("../../../use_cases/dispatch_pile/DispatchPilePresenter");
-const UseCaseStub = require("../stubs/UseCaseStub");
-const ViewSpy = require("../stubs/ViewSpy");
-const ControllerSpy = require("../stubs/ControllerSpy");
-const PostOfficeSpy = require("../stubs/PostOfficeSpy");
+import {DispatchPilePresenter} from "../../../use_cases/dispatch_pile/DispatchPilePresenter";
+import {UseCaseStub} from "../stubs/UseCaseStub";
+import {ViewSpy} from "../stubs/ViewSpy";
+import {ControllerSpy} from "../stubs/ControllerSpy";
+import {PostOfficeSpy} from "../stubs/PostOfficeSpy";
 
+type TODO = any;
 
-
+// @ts-ignore
 let use_case_stub = new UseCaseStub();
 let view_spy = new ViewSpy();
 let controller_spy = new ControllerSpy();
 
-let presenter;
+let presenter: TODO;
 
 beforeEach(() => {
     presenter = new DispatchPilePresenter(use_case_stub, view_spy, controller_spy)

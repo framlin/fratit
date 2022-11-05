@@ -1,4 +1,6 @@
-const PostitController = require('../../use_cases/PostitController');
+import {PostitController} from '../../use_cases/PostitController';
+
+type TODO = any;
 
 class interactor_stub{
     execute_called = false;
@@ -6,9 +8,9 @@ class interactor_stub{
         this.execute_called = true;
     }
 }
-let stubbed_interactor;
+let stubbed_interactor: TODO;
 
-let postit_controller;
+let postit_controller: TODO;
 
 beforeEach(() => {
     stubbed_interactor = new interactor_stub();

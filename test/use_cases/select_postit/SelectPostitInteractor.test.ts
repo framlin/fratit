@@ -1,10 +1,13 @@
-const SelectPostitInteractor = require("../../../use_cases/select_postit/SelectPostitInteractor");
-const post_office_stub = require("../stubs/PostOfficeSpy");
+import {SelectPostitInteractor} from "../../../use_cases/select_postit/SelectPostitInteractor";
+import {PostOfficeSpy as post_office_stub} from "../stubs/PostOfficeSpy";
+
+type TODO = any;
+
 it('executes by passing the presenter all postits as a list', () => {
     let present_called = false;
-    let passed_list = [];
+    let passed_list: TODO= [];
     let presenter_stub = {
-        present: (list) => {
+        present: (list: TODO) => {
             present_called = true;
             passed_list = list;
         }
@@ -31,13 +34,13 @@ it('reacts to postit_selected, by moving the selected postit to the top', () => 
         get all() {
             return postits;
         }
-        take(index) {
+        take(index: TODO) {
             postits = small_postits;
             take_called = true;
             return {text:2};
         }
 
-        push(elem){
+        push(elem: TODO){
             postits.push(elem);
         }
     }
@@ -56,11 +59,11 @@ it('reacts to postit_selected, by moving the selected postit to the top', () => 
     let stubbed_post_office = new post_office;
 
     let present_called = false;
-    let passed_list = [];
+    let passed_list: TODO = [];
     let take_called = false;
     let interactor = new SelectPostitInteractor({presenter: {
             //presenter
-            present: (list) => {
+            present: (list: TODO) => {
                 passed_list = list;
                 present_called = true;
             }

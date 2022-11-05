@@ -34,7 +34,7 @@ export class PostOffice {
     }
 
     //for the Singleton-Test
-    set _id_(id) {
+    set _id_(id: TODO) {
         this._id = id;
     }
 

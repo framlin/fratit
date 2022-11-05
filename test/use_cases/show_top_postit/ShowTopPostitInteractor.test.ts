@@ -1,9 +1,9 @@
-const ShowTopPostitInteractor = require("../../../use_cases/show_top_postit/ShowTopPostitInteractor");
-const Postit = require("../../../postit/Postit");
-const post_office_stub = require("../stubs/PostOfficeSpy");
-const presenter_stub = require("../stubs/PresenterSpy");
+import {ShowTopPostitInteractor} from "../../../use_cases/show_top_postit/ShowTopPostitInteractor";
+import {Postit} from "../../../postit/Postit";
+import {PostOfficeSpy as post_office_stub} from "../stubs/PostOfficeSpy";
+import {PresenterSpy as presenter_stub} from "../stubs/PresenterSpy";
 
-
+type TODO = any;
 
 class pile_stub {
     top_is_called = false;
@@ -23,10 +23,10 @@ class pile_stub {
 
 }
 
-let stubbed_pile;
-let stubbed_presenter;
-let stubbed_post_office;
-let show_top_postit_interactor;
+let stubbed_pile: TODO;
+let stubbed_presenter: TODO;
+let stubbed_post_office: TODO;
+let show_top_postit_interactor: TODO;
 
 
 beforeEach(() => {

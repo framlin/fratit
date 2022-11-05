@@ -1,10 +1,12 @@
-const InteractorFactory = require("../../factories/InteractorFactory");
-const AddPostitInteractor = require("../../use_cases/add_postit/AddPostitInteractor");
-const SelectPostitInteractor = require("../../use_cases/select_postit/SelectPostitInteractor");
-const ShowTopPostitInteractor = require("../../use_cases/show_top_postit/ShowTopPostitInteractor");
+import {InteractorFactory} from "../../factories/InteractorFactory";
+import {AddPostitInteractor} from "../../use_cases/add_postit/AddPostitInteractor";
+import {SelectPostitInteractor} from "../../use_cases/select_postit/SelectPostitInteractor";
+import {ShowTopPostitInteractor} from "../../use_cases/show_top_postit/ShowTopPostitInteractor";
 
-function test_interactor_creation(name, type) {
+type TODO = any;
+function test_interactor_creation(name: TODO, type: TODO) {
     let post_office_stub = {};
+    // @ts-ignore
     InteractorFactory.config(post_office_stub);
     let use_case = {name: name, presenter: {}};
     let interactor = InteractorFactory.create(use_case);

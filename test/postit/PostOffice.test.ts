@@ -1,6 +1,6 @@
-const POST_OFFICE = require("../../postit/PostOffice");
-const Pile = require("../../postit/Pile");
-const Postit = require("../../postit/Postit");
+import {POST_OFFICE} from "../../postit/PostOffice";
+import {Pile} from "../../postit/Pile";
+import {Postit} from "../../postit/Postit";
 
 test('that it delivers a pile', () => {
     let pile = POST_OFFICE.pile;
@@ -20,8 +20,9 @@ test('that it can create a Postit', () => {
     expect(postit).toBeInstanceOf(Postit);
 })
 
+import {POST_OFFICE as  POST_OFFICE_2} from "../../postit/PostOffice";
+
 test('that it is a kind of singleton', () => {
-    const POST_OFFICE_2 = require("../../postit/PostOffice");
     POST_OFFICE_2._id_ = 42;
     expect(POST_OFFICE._id_).toBe(42);
 });

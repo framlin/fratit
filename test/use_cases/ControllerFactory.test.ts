@@ -1,11 +1,13 @@
-const ControllerFactory = require("../../factories/ControllerFactory");
-const AddPostitController = require("../../use_cases/add_postit/AddPostitController");
-const SelectPostitController = require("../../use_cases/select_postit/SelectPostitController");
-const ShowTopPostitController = require("../../use_cases/show_top_postit/ShowTopPostitController");
+import {ControllerFactory} from "../../factories/ControllerFactory";
+import {AddPostitController} from "../../use_cases/add_postit/AddPostitController";
+import {SelectPostitController} from "../../use_cases/select_postit/SelectPostitController";
+import {ShowTopPostitController} from "../../use_cases/show_top_postit/ShowTopPostitController";
+
+type TODO = any;
 
 let interactor_stub = {}
 
-function expect_instance_of(use_case_name, class_name) {
+function expect_instance_of(use_case_name: TODO, class_name: TODO) {
     let postit_controller = ControllerFactory.create(use_case_name, interactor_stub);
     expect(postit_controller).toBeInstanceOf(class_name);
 }

@@ -1,7 +1,8 @@
-const Postit = require("../../postit/Postit");
-const Pile = require("../../postit/Pile");
+import {Postit} from "../../postit/Postit";
+import {Pile} from "../../postit/Pile";
 
-let postit;
+type TODO = any;
+let postit: TODO;
 
 beforeEach(() => {
     postit = new Postit();
@@ -55,7 +56,7 @@ test('that a de-serialized properties are correct', () => {
 });
 
 it('sets the last-update-date, when anything has changed on the postit', () => {
-    function check_last_update(fun) {
+    function check_last_update(fun: TODO) {
         let posit = new Postit('hallo', new Date(2022, 7, 19));
         let before = posit.last_update;
         fun(posit);
@@ -63,11 +64,11 @@ it('sets the last-update-date, when anything has changed on the postit', () => {
         expect(before).toBeLessThan(after);
     }
 
-    check_last_update((postit) => {
+    check_last_update((postit: TODO) => {
         postit.text = 'bla';
     })
 
-    check_last_update((postit) => {
+    check_last_update((postit: TODO) => {
         postit.expiration = new Date(2022,7,7);
     })
 });

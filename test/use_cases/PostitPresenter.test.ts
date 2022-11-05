@@ -1,16 +1,20 @@
-const PostitPresenter = require("../../use_cases/PostitPresenter");
-const view_stub = require("./stubs/ViewSpy");
-const controller_stub = require("./stubs/ControllerSpy");
+import {PostitPresenter} from "../../use_cases/PostitPresenter";
+import {ViewSpy as view_stub} from "./stubs/ViewSpy";
+import {ControllerSpy as controller_stub} from "./stubs/ControllerSpy";
 
-let stubbed_view;
-let stubbed_controller;
-let post_office_stub = {};
+type TODO = any;
 
-let postit_presenter;
+let stubbed_view: TODO;
+let stubbed_controller: TODO;
+let post_office_stub : TODO= {};
+
+let postit_presenter: TODO;
+
 beforeEach(() => {
     stubbed_controller = new controller_stub();
     stubbed_view = new view_stub();
     let use_case_stub = {name: 'postit'}
+    // @ts-ignore
     postit_presenter = new PostitPresenter(use_case_stub, stubbed_view, stubbed_controller, post_office_stub)
 });
 

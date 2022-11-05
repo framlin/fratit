@@ -1,13 +1,15 @@
 // const SelectPostitPresenter = require("../../ui/electron/select_postit/SelectPostitPresenter");
-const SelectPostitPresenter = require("../../../use_cases/select_postit/SelectPostitPresenter");
-const post_office_stub = require("../stubs/PostOfficeSpy");
-const view_stub = require("../stubs/ViewSpy");
-const controller_stub = require("../stubs/ControllerSpy");
+import {SelectPostitPresenter} from "../../../use_cases/select_postit/SelectPostitPresenter";
+import {PostOfficeSpy as post_office_stub} from "../stubs/PostOfficeSpy";
+import {ViewSpy as view_stub} from "../stubs/ViewSpy";
+import {ControllerSpy as controller_stub} from "../stubs/ControllerSpy";
+
+type TODO = any;
 
 class select_postit_controller_stub extends controller_stub{
     postit_selected_called = false
     passed_index = -1;
-    postit_select(index) {
+    postit_select(index: TODO) {
         this.postit_selected_called = true;
         this.passed_index = index;
     }
@@ -23,9 +25,10 @@ let use_case_stub = {
 
 let stubbed_view = new view_stub();
 
-let select_postit_presenter
+let select_postit_presenter: TODO;
 beforeEach(() => {
     select_postit_presenter = new SelectPostitPresenter(
+        // @ts-ignore
         use_case_stub, stubbed_view, stubbed_controller, stubbed_post_office
     );
 });
