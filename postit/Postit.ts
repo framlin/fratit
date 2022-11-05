@@ -1,11 +1,11 @@
 type TODO = any
 export class Postit {
     private _text = "";
-    private _expiration: TODO = null;
-    private _creationDate: TODO = null;
+    private _expiration: Date | null = null;
+    private _creationDate: number | null = null;
     private _last_update = 0;
 
-    constructor(text?: TODO, expiration?: TODO, last_update?: TODO) {
+    constructor(text?: string, expiration?: Date, last_update?: number) {
         this._creationDate = Date.now();
 
         if (typeof text !== 'undefined') {
@@ -47,26 +47,27 @@ export class Postit {
         this._last_update = Date.now();
     }
 
-    is_same_as(postit_to_compare_with: TODO) {
+    is_same_as(postit_to_compare_with: Postit) {
         return this.id === postit_to_compare_with.id;
     }
 
-    is_equal_with(postit_to_compare_with: TODO) {
-        let same_expiration = (this.expiration === postit_to_compare_with.expiration) ||
-            (this.expiration.getTime() === postit_to_compare_with.expiration.getTime());
+    is_equal_with(postit_to_compare_with: Postit) {
+        let same_expiration =
+            (this.expiration === postit_to_compare_with.expiration) ||
+            ((this.expiration && this.expiration.getTime()) === (postit_to_compare_with.expiration && postit_to_compare_with.expiration.getTime()));
 
         return this.is_same_as(postit_to_compare_with) &&
             (this.text === postit_to_compare_with.text) && same_expiration;
 
     }
 
-    is_more_current(postit_to_compare_with: TODO) {
+    is_more_current(postit_to_compare_with: Postit) {
         return this.last_update > postit_to_compare_with.last_update;
     }
 
     static from_JSON(json_string: TODO) {
         let obj = JSON.parse(json_string);
-        let date = obj.expiration ? new Date(obj.expiration) : null;
+        let date = obj.expiration ? new Date(obj.expiration) : undefined;
         let result = new Postit(obj.text, date, obj.last_update);
 
         result._creationDate = obj.creationDate;

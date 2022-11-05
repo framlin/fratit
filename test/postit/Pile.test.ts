@@ -10,6 +10,7 @@ function push_two_items(pile: TODO) {
 }
 
 function create_123_pile() {
+    // @ts-ignore
     let new_pile =  new Pile([1,2,3]);
     // @ts-ignore
     new_pile.storage = {save: () => {}, load: ()=> {}};
@@ -70,18 +71,21 @@ it('can be initialized with an array', () => {
 
 test('to return all items at once', () => {
     let items = [1, 2, 3];
+    // @ts-ignore
     let pile = new Pile(items);
     expect(pile.all).toStrictEqual(items);
 });
 
 test('that the pile is incremented if one puts one item into it', () => {
     let pile = create_123_pile();
+    // @ts-ignore
     pile.put(1,4);
     expect(pile.size).toBe(4);
 });
 
 test ('that the element occurs at the index pf all items, at which it was put to', () => {
     let pile = create_123_pile();
+    // @ts-ignore
     pile.put(1,4);
     expect(pile.all[1]).toBe(4);
 });
@@ -126,6 +130,7 @@ test.skip('that a de-serialized properties are correct', () => {
 
 it('sets the last-updated-date, when anything has changed on the pile', () => {
     function check_last_update(fun: TODO) {
+        // @ts-ignore
         let pile = new Pile([1,2,3]);
         let before = pile.last_update;
         fun(pile);
@@ -152,8 +157,10 @@ it('sets the last-updated-date, when anything has changed on the pile', () => {
 
 })
 
-it.skip('does no re-set the last-update to 0, when it gets serialized and de-serialized', () => {
+it('does no re-set the last-update to 0, when it gets serialized and de-serialized', () => {
+    // @ts-ignore
     let pile = new Pile([1,2,3]);
+    // @ts-ignore
     pile.push(4);
     let before = pile.last_update;
     let json = JSON.stringify(pile);
