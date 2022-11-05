@@ -1,13 +1,11 @@
 import {Postit} from "./Postit";
 
-type TODO = any;
-
 export class Pile {
-    private _items: TODO = [];
+    private _items: Postit[] = [];
     private _last_update = 0;
-    private _basket: TODO = [];
+    private _basket: Postit[] = [];
 
-    constructor(initial_items?: TODO, last_update?: TODO) {
+    constructor(initial_items?: Postit[], last_update?: number) {
         if (initial_items instanceof Array) {
             this._items = initial_items;
         }
@@ -36,7 +34,7 @@ export class Pile {
         return this._basket;
     }
 
-    push(item: TODO) {
+    push(item: Postit) {
         this._items.push(item);
         this._last_update = Date.now();
     }
@@ -44,16 +42,18 @@ export class Pile {
     pop() {
         this._last_update = Date.now();
         let popped_item = this._items.pop();
-        this._basket.push(popped_item);
+        if (popped_item) {
+            this._basket.push(popped_item);
+        }
         return popped_item;
     }
 
-    put(index: TODO, item: TODO) {
+    put(index: number, item: Postit) {
         this._items.splice(index, 0, item);
         this._last_update = Date.now();
     }
 
-    take(index: TODO) {
+    take(index: number) {
         this._last_update = Date.now();
         let taken_item = this._items.splice(index, 1)[0];
         this._basket.push(taken_item);
@@ -68,18 +68,18 @@ export class Pile {
         this._last_update = Date.now();
     }
 
-    find_same(pattern: TODO) {
-        return this._items.find((item: TODO) => item.is_same_as(pattern));
+    find_same(pattern: Postit) {
+        return this._items.find((item: Postit) => item.is_same_as(pattern));
     }
 
-    find_equal(pattern: TODO) {
-        return this._items.find((item: TODO) => item.is_equal_with(pattern));
+    find_equal(pattern: Postit) {
+        return this._items.find((item: Postit) => item.is_equal_with(pattern));
     }
 
-    static from_JSON(json_string: TODO) {
+    static from_JSON(json_string: string) {
         let obj = JSON.parse(json_string);
         let items = JSON.parse(obj.items);
-        let postits = [];
+        let postits: Postit[] = [];
         for (let item of items) {
             let json_item = JSON.stringify(item);
             let postit = Postit.from_JSON(json_item);
@@ -88,10 +88,10 @@ export class Pile {
         return new Pile(postits, obj.last_update);
     }
 
-    load_from_JSON(json_string: TODO) {
+    load_from_JSON(json_string: string) {
         let obj = JSON.parse(json_string);
         let items = JSON.parse(obj.items);
-        let postits = [];
+        let postits: Postit[] = [];
         for (let item of items) {
             let json_item = JSON.stringify(item);
             let postit = Postit.from_JSON(json_item);

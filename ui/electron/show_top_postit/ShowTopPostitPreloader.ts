@@ -1,4 +1,6 @@
+// @ts-ignore
 const {ipcRenderer} = require('electron');
+// @ts-ignore
 type TODO = any;
 function get_postit_text_div() {
     return document.querySelector('#postit-text');

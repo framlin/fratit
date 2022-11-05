@@ -1,27 +1,27 @@
+import {PileStorage} from "../storage/PileStorage";
 import {Pile} from "./Pile";
 import {Postit} from "./Postit";
 
-type TODO = any;
 export class PostOffice {
-    private _pile: TODO;
-    private _storage: TODO;
-    private _id: TODO;
+    private _pile: Pile;
+    private _storage: PileStorage|undefined;
+    private _id: number;
 
-    constructor(pile: TODO) {
+    constructor(pile: Pile) {
         this._pile = pile;
         this._id = 0;
     }
 
-    set storage(storage: TODO) {
+    set storage(storage: PileStorage) {
         this._storage = storage;
         this._storage.PILE = this._pile;
     }
 
-    get pile() {
+    get pile() : Pile {
         return this._pile;
     }
 
-    set pile(pile) {
+    set pile(pile: Pile) {
         this._pile = pile;
         if (this._storage) {
             this._storage.PILE = this._pile;
@@ -34,13 +34,13 @@ export class PostOffice {
     }
 
     //for the Singleton-Test
-    set _id_(id: TODO) {
+    set _id_(id: number) {
         this._id = id;
     }
 
     load() {
         if (this._storage) {
-            this._storage.load();
+            this._storage.load().then();
         } else {
             throw new Error("NO PILE_STORAGE");
         }
@@ -49,7 +49,7 @@ export class PostOffice {
     save() {
         if (this._storage) {
             this._storage.PILE = this._pile;
-            this._storage.save();
+            this._storage.save().then();
         } else {
             throw new Error("NO PILE_STORAGE");
         }
