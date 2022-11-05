@@ -1,18 +1,20 @@
+import {Pile} from "../postit/Pile";
+
 const { writeFile, readFile, access, mkdir } = require('fs/promises');
 const path = require('path');
-type TODO = any;
-export class PileStorage {
-    private _PILE: TODO
-    private _path: TODO
 
-    config (storage_path: TODO) {
+export class PileStorage {
+    private _PILE: Pile|undefined;
+    private _path: string | undefined;
+
+    config (storage_path: string) {
         this._path = storage_path;
         access(this._path).catch(() => {
             mkdir(this._path).then();
         });
     }
 
-    set PILE (PILE: TODO) {
+    set PILE (PILE: Pile) {
         this._PILE = PILE;
     }
 
